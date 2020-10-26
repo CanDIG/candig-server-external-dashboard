@@ -69,7 +69,7 @@ const Styles = styled.div`
     margin-bottom: 2px;
     background-color: #FFFFFF;
     width: 100px;
-    display: ${props => props.rowFilter ? "none" : ""};
+    display: ${(props) => (props.rowFilter ? 'none' : '')};
   }
 
   table thead tr th div select {
@@ -93,7 +93,7 @@ const Styles = styled.div`
   }
 
   table thead tr th div span[title="Toggle GroupBy"] {
-    display: ${props => props.rowAggregation ? "none" : ""};;
+    display: ${(props) => (props.rowAggregation ? 'none' : '')};;
   }
 
 

@@ -1,21 +1,4 @@
-import BASE_URL, { CHORD_METADATA_URL } from '../constants/constants';
-
-/*
-Fetch individuals from CHORD Metadata service and returns a promise
-*/
-function fetchIndividuals() {
-  return fetch(`${CHORD_METADATA_URL}/api/individuals?page_size=10000`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  }).then((response) => {
-    if (response.ok) {
-      return response.json();
-    }
-    return {};
-  });
-}
+import BASE_URL from '../constants/constants';
 
 /*
 Fetch patients from CanDIG web api and returns a promise
@@ -126,7 +109,6 @@ function searchVariant(datasetId, start, end, referenceName) {
 
 export {
   fetchPatients,
-  fetchIndividuals,
   fetchDatasets,
   getCounts,
   fetchServers,

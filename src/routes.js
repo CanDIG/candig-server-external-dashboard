@@ -18,14 +18,10 @@
 
 */
 import Overview from './views/Overview';
-import Services from './views/Services';
 import APIInfo from './views/APIInfo';
 import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
-import GwasBrowser from './views/GwasBrowser';
-import TableList from "./views/MetadataTableApp";
-import ChordTable from "./views/ChordTableApp"
-import IndividualsOverview from "./views/IndividualsOverview";
+import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
 
 const routes = [
@@ -44,20 +40,6 @@ const routes = [
     layout: '/dashboard',
   },
   {
-    path: '/individuals-overview',
-    name: 'Individuals Overview',
-    icon: 'nc-icon nc-circle-10',
-    component: IndividualsOverview,
-    layout: '/dashboard',
-  },
-  {
-    path: '/services',
-    name: 'Services status',
-    icon: 'nc-icon nc-tv-2',
-    component: Services,
-    layout: '/dashboard',
-  },
-  {
     path: '/api_info',
     name: 'API info',
     icon: 'nc-icon nc-sound-wave',
@@ -65,18 +47,11 @@ const routes = [
     layout: '/dashboard',
   },
   {
-    path: '/gwas_browser',
-    name: 'GWAS Browser',
-    icon: 'nc-icon nc-compass-05',
-    component: GwasBrowser,
+    path: '/variants_search',
+    name: 'Variants Search',
+    icon: 'nc-icon nc-zoom-split',
+    component: VariantsSearch,
     layout: '/dashboard',
-  },
-  {
-    path: '/variants_search',	
-    name: 'Variants Search',	
-    icon: 'nc-icon nc-zoom-split',	
-    component: VariantsSearch,	
-    layout: '/dashboard',	
   },
   {
     path: '/custom_visualization',
@@ -86,18 +61,11 @@ const routes = [
     layout: '/dashboard',
   },
   {
-    path: "/tables",
-    name: "Clinical Metadata",
-    icon: "nc-icon nc-single-copy-04",
+    path: '/tables',
+    name: 'Clinical Metadata',
+    icon: 'nc-icon nc-single-copy-04',
     component: TableList,
-    layout: "/dashboard",
-  },
-  {
-    path: "/Chord",
-    name: "Chord Metadata",
-    icon: "nc-icon nc-tile-56",
-    component: ChordTable,
-    layout: "/dashboard",
+    layout: '/dashboard',
   },
 ];
 export default routes;
