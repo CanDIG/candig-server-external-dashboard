@@ -47,4 +47,4 @@ export function notify(refObject, message, type = 'info') {
   refObject.current.notificationAlert(createNotificationObject(message, type));
 }
 
-export { NotificationAlert }
+export { NotificationAlert };
