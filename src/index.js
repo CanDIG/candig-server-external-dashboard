@@ -22,22 +22,27 @@ import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
 import { Router, Route, Switch, Redirect } from "react-router-dom";
 import SideBar from "assets/css/StyledComponents/SideBarStyled"
-
 import "bootstrap/dist/css/bootstrap.css";
 import "assets/scss/paper-dashboard.scss?v=1.2.0";
 import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
-
+import routes from "./routes";
 import AdminLayout from "layouts/Admin.js";
-
 const hist = createBrowserHistory();
-
 ReactDOM.render(
   <SideBar>
   <Router history={hist}>
-    <Switch>
-      <Route path="/dashboard" render={(props) => <AdminLayout {...props} />} />
-      <Redirect to="/dashboard/overview" />
+  <Switch>
+    <Route exact path="/v2/dashboard" render={() => <Redirect to="/v2/dashboard/overview" />} />
+        {routes.map((prop, key) => {
+          return (
+            <Route
+              path={prop.layout + prop.path}
+              key={key}
+              render={(prop) => <AdminLayout {...prop} />}
+            />
+          );
+        })}
     </Switch>
   </Router>
   </SideBar>,
