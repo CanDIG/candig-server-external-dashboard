@@ -9,7 +9,9 @@ const Style = styled(InputGroup)`
   button {
     margin-top: 0%;
     margin-bottom: 0%;
-    background-color: #0b65a3;
+    // background-color: #0b65a3;
+    background: #2D6FB3
+
   }
 
   button.dropdown-item {

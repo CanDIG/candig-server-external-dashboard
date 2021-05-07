@@ -4,7 +4,6 @@ import { InputGroup } from 'reactstrap';
 const Styles = styled(InputGroup)`
   .pageCountBox {
     margin-left: .3rem;
-    // padding: 10px 10px 10px 10px;
   }
 
   //Need to figure out how to do this for individual inputs
