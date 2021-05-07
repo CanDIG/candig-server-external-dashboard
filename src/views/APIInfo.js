@@ -18,10 +18,10 @@ import BASE_URL from '../constants/constants';
  * API Info component
  */
 function APIInfo({ updateState }) {
-  const [apiDef, setApiDef] = useState(`${BASE_URL}/static/api.yaml`);
+  const [apiDef, setApiDef] = useState(`${BASE_URL}/static/core/api/api.yaml`);
   const apiDefinitionObj = {
-    'CanDIG-Server V1 API': `${BASE_URL}/static/api.yaml`,
-    'CanDIG-Server V1 Search & Count API': `${BASE_URL}/static/search_count_service.yaml`,
+    'CanDIG-Server V1 API': `${BASE_URL}/static/core/api/api.yaml`,
+    'CanDIG-Server V1 Search & Count API': `${BASE_URL}/static/core/api/search_count_service.yaml`,
     'CHORD Metadata Service': `${BASE_URL}/static/chord_metadata_service.yaml`,
   };
   const apiList = Object.keys(apiDefinitionObj).map((x) => (
