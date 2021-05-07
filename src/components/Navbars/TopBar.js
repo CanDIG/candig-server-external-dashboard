@@ -165,11 +165,9 @@ class Header extends React.Component {
                   <p>
                     <span className="d-lg-none d-md-block">Account</span>
                   </p>
-                </DropdownToggle>
+                </DropdownToggle>              
                 <DropdownMenu right>
                   <DropdownItem href="/">Current dashboard</DropdownItem>
-                </DropdownMenu>                
-                <DropdownMenu right>
                   <DropdownItem href="/auth/logout">Logout</DropdownItem>
                 </DropdownMenu>
               </Dropdown>
