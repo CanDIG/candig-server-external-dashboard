@@ -155,7 +155,7 @@ class Header extends React.Component {
                 (<DatasetsDropdown updateState={this.props.updateState}/>) :
                 <></> }
               {/* Leaving this commented out for now */}
-              {/* <Dropdown
+              <Dropdown
                 nav
                 isOpen={this.state.dropdownOpen}
                 toggle={(e) => this.dropdownToggle(e)}
@@ -163,15 +163,13 @@ class Header extends React.Component {
                 <DropdownToggle caret nav>
                   <i className="nc-icon nc-bell-55" />
                   <p>
-                    <span className="d-lg-none d-md-block">Some Actions</span>
+                    <span className="d-lg-none d-md-block">Account</span>
                   </p>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem tag="a">Action</DropdownItem>
-                  <DropdownItem tag="a">Another Action</DropdownItem>
-                  <DropdownItem tag="a">Something else here</DropdownItem>
+                  <DropdownItem href="/auth/logout">Logout</DropdownItem>
                 </DropdownMenu>
-              </Dropdown> */}
+              </Dropdown>
               {/* <NavItem>
                 <Link to="#pablo" className="nav-link btn-rotate">
                   <i className="nc-icon nc-settings-gear-65" />
