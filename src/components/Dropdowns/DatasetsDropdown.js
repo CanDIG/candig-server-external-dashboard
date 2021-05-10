@@ -58,7 +58,6 @@ function DatasetsDropdown({ updateState }) {
    * and update both parent and local state
    */
   useEffect(() => {
-
     if (!selectedDataset) {
       fetchDatasets()
         .then((data) => {

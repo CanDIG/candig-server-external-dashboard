@@ -21,8 +21,6 @@ function VariantsTable({ rowData, datasetId }) {
     { headerName: 'End', field: 'end' },
     { headerName: 'Reference Bases', field: 'referenceBases' },
     { headerName: 'Alternate Bases', field: 'alternateBases' },
-    { headerName: 'Count', field: 'variantSetId'},
-    { headerName: 'Fraction of Participants', field: 'id'}
   ];
   let gridOptions = {};
 
