@@ -43,9 +43,7 @@ class Header extends React.Component {
     this.state = {
       isOpen: false,
       dropdownOpen: false,
-      color: "transparent",
-      selectedDataset: undefined,
-      globalDatasetsList: {}
+      color: "transparent"
     };
     this.toggle = this.toggle.bind(this);
     this.dropdownToggle = this.dropdownToggle.bind(this);
@@ -154,7 +152,7 @@ class Header extends React.Component {
           >
             <Nav navbar>
               {this.props.datasetVisible === true ? 
-                (<DatasetsDropdown updateState={this.props.updateState} globalDatasetsList={this.state.globalDatasetsList} />) :
+                (<DatasetsDropdown updateState={this.props.updateState} />) :
                 <></> }
               {/* Leaving this commented out for now */}
               <Dropdown
@@ -169,7 +167,7 @@ class Header extends React.Component {
                   </p>
                 </DropdownToggle>              
                 <DropdownMenu right>
-                  <DropdownItem href="/">Old dashboard</DropdownItem>
+                  <DropdownItem href="/">Return to production dashboard</DropdownItem>
                   <DropdownItem href="/auth/logout">Logout</DropdownItem>
                 </DropdownMenu>
               </Dropdown>

@@ -97,7 +97,7 @@ function VariantsTable({ rowData, datasetId }) {
 
   gridOptions = {
     defaultColDef: {
-      editable: true,
+      editable: false,
       sortable: true,
       resizable: true,
       filter: true,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   Dropdown,
@@ -12,7 +12,7 @@ import { fetchDatasets } from '../../api/api';
  * Dropdown component listing all the available Datasets
  * @param{func} A method that updates the state on the parent
  */
-function DatasetsDropdown({ updateState, globalDatasetsList }) {
+function DatasetsDropdown({ updateState }) {
   const [selectedDataset, setSelectedDataset] = useState('');
   const [datasets, setDatasets] = useState({});
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,7 +38,6 @@ function DatasetsDropdown({ updateState, globalDatasetsList }) {
   function setFirstDataset(datasetsList) {
     const firstDataset = datasetsList[Object.keys(datasetsList)[0]];
     setSelectedDataset(firstDataset.name);
-    setSelectedDataset(firstDataset.name);
     updateParentState(firstDataset.name, firstDataset.id);
   }
 
@@ -59,8 +58,6 @@ function DatasetsDropdown({ updateState, globalDatasetsList }) {
    * and update both parent and local state
    */
   useEffect(() => {
-    console.log(selectedDataset);
-    console.log(globalDatasetsList)
 
     if (!selectedDataset) {
       fetchDatasets()
@@ -76,7 +73,6 @@ function DatasetsDropdown({ updateState, globalDatasetsList }) {
    * Update both parent and local components state
    */
   function handleClick(e) {
-    setSelectedDataset(e.currentTarget.textContent);
     setSelectedDataset(e.currentTarget.textContent);
     updateParentState(e.currentTarget.textContent, e.currentTarget.id);
   }
