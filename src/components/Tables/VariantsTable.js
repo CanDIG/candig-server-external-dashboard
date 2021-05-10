@@ -21,7 +21,8 @@ function VariantsTable({ rowData, datasetId }) {
     { headerName: 'End', field: 'end' },
     { headerName: 'Reference Bases', field: 'referenceBases' },
     { headerName: 'Alternate Bases', field: 'alternateBases' },
-    { headerName: 'Retrieve Individuals', cellRenderer: 'VariantsTableButton' },
+    { headerName: 'Count', field: 'variantSetId'},
+    { headerName: 'Fraction of Participants', field: 'id'}
   ];
   let gridOptions = {};
 
@@ -96,7 +97,7 @@ function VariantsTable({ rowData, datasetId }) {
 
   gridOptions = {
     defaultColDef: {
-      editable: false,
+      editable: true,
       sortable: true,
       resizable: true,
       filter: true,
