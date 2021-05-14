@@ -77,7 +77,7 @@ function BeaconSearch({ datasetId }) {
           <Button>Search</Button>
         </Form>
 
-        <Row>
+        <Row style={{ marginTop: "50px" }}>
             <div className="ml-auto mr-auto"> {beaconResponse} </div>
         </Row>
 
