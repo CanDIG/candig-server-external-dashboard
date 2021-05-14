@@ -2,7 +2,7 @@
   "name": "candig-server-beta-dashboard",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/v2/dashboard/overview",
+  "homepage": "https://github.com/v2/dashboard",
   "dependencies": {
     "@highcharts/map-collection": "^1.1.3",
     "ag-grid-community": "^23.2.1",
