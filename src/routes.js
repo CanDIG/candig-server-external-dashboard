@@ -23,6 +23,8 @@ import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
 import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
+import BeaconSearch from './views/BeaconSearch';
+
 
 const routes = [
   {
@@ -51,6 +53,13 @@ const routes = [
     name: 'Variants Search',
     icon: 'nc-icon nc-zoom-split',
     component: VariantsSearch,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/beacon-search',
+    name: 'Beacon Search',
+    icon: 'nc-icon nc-zoom-split',
+    component: BeaconSearch,
     layout: '/v2/dashboard',
   },
   {
