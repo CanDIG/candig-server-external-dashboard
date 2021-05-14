@@ -17,17 +17,15 @@ function BeaconSearch({ datasetId }) {
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
 
-    setBeaconResponse("🕛  Making request...")
+    setBeaconResponse("🕛  Loading...")
 
     // searchVariant(datasetId, e.target.start.value, e.target.end.value,)
     searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.referenceName.value)
       .then((data) => {
         if (Object.keys(data).length === 0) {
-            console.log(data)
             setBeaconResponse("❌  Variants do not exist for your search.")
         }
         else {
-            console.log(data)
             setBeaconResponse("✅  Variants exist for your search.")
         }
       }).catch(() => {
