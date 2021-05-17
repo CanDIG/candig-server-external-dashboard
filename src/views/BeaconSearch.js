@@ -11,31 +11,28 @@ import { notify, NotificationAlert } from '../utils/alert';
 import '../assets/css/VariantsSearch.css';
 
 function BeaconSearch({ datasetId }) {
-  const [beaconResponse, setBeaconResponse] = useState("");
+  const [beaconResponse, setBeaconResponse] = useState('');
   const notifyEl = useRef(null);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
 
-    setBeaconResponse("🕛  Making request...")
+    setBeaconResponse('🕛  Loading...');
 
     // searchVariant(datasetId, e.target.start.value, e.target.end.value,)
     searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.referenceName.value)
       .then((data) => {
         if (Object.keys(data).length === 0) {
-            console.log(data)
-            setBeaconResponse("❌  Variants do not exist for your search.")
-        }
-        else {
-            console.log(data)
-            setBeaconResponse("✅  Variants exist for your search.")
+          setBeaconResponse('❌  Variants do not exist for your search.');
+        } else {
+          setBeaconResponse('✅  Variants exist for your search.');
         }
       }).catch(() => {
         notify(
-            notifyEl,
-            'Something else is wrong.',
-            'warning',
-          );
+          notifyEl,
+          'Something else is wrong.',
+          'warning',
+        );
       });
   };
 
@@ -77,8 +74,12 @@ function BeaconSearch({ datasetId }) {
           <Button>Search</Button>
         </Form>
 
-        <Row style={{ marginTop: "50px" }}>
-            <div className="ml-auto mr-auto"> {beaconResponse} </div>
+        <Row style={{ marginTop: '50px' }}>
+          <div className="ml-auto mr-auto">
+            {' '}
+            {beaconResponse}
+            {' '}
+          </div>
         </Row>
 
       </div>

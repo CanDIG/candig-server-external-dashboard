@@ -141,7 +141,7 @@ function TreatingCentreProvince({ datasetId }) {
         );
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   }, [datasetId]);
 
