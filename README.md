@@ -21,9 +21,9 @@ npm install
 ```
 That command will install all the dependencies used on the application.
 
-Once the installation is completed, you may start the dashboard using:
+Once the installation is completed, you may start the dashboard by running:
 ```bash
-npm start
+REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca' npm start
 ```
 
 ## Usage

@@ -3,9 +3,7 @@
  */
 
 // API URL where the Dashboard get all the data
-const BASE_URL = 'http://ga4ghdev01.bcgsc.ca:20127';
-
-export const CHORD_METADATA_URL = 'http://ga4ghdev01.bcgsc.ca:4000';
+const BASE_URL = process.env.REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL;
 
 export const CLIN_METADATA = [
   'celltransplants',
@@ -26,7 +24,5 @@ export const CLIN_METADATA = [
   'treatments',
   'tumourboards',
 ];
-
-export const DRS = 'http://ga4ghdev01.bcgsc.ca:5000';
 
 export default BASE_URL;
