@@ -1,8 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
 import BASE_URL from '../../constants/constants';
-import IndividualTable from './IndividualTable';
 import { notify, NotificationAlert } from '../../utils/alert';
 import VariantsTableButton from './VariantsTableButton';
 
@@ -11,8 +10,6 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import '../../assets/css/VariantsSearch.css';
 
 function VariantsTable({ rowData, datasetId }) {
-  const [individualsRowData, setIndividualsRowData] = useState([]);
-  const [displayIndividualsTable, setDisplayIndividualsTable] = useState(false);
   const notifyEl = useRef(null);
 
   const columnDefs = [
@@ -60,13 +57,6 @@ function VariantsTable({ rowData, datasetId }) {
         if (data.results.patients.length === 0) {
           throw new Error('The variant you selected does not have associated individuals.');
         }
-
-        let patientParams = '';
-
-        for (let i = 0; i < data.results.patients.length; i += 1) {
-          patientParams += `id=${data.results.patients[i].patientId}&`;
-        }
-
       }).catch((err) => {
         notify(
           notifyEl,
@@ -112,8 +102,6 @@ function VariantsTable({ rowData, datasetId }) {
       </div>
 
       <br />
-
-      {displayIndividualsTable ? <IndividualTable individualsRowData={individualsRowData} /> : null}
     </>
   );
 }
