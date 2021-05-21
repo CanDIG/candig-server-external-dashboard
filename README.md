@@ -28,7 +28,7 @@ REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca' n
 ## Deployment
 
 ```bash
-REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca'
+export REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca'
 npm run build
 npx http-server --proxy http://0.0.0.0:8080? ./build/
 ```
