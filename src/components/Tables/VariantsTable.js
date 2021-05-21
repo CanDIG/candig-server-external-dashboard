@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
-import BASE_URL, { CHORD_METADATA_URL } from '../../constants/constants';
+import BASE_URL from '../../constants/constants';
 import IndividualTable from './IndividualTable';
 import { notify, NotificationAlert } from '../../utils/alert';
 import VariantsTableButton from './VariantsTableButton';
@@ -67,23 +67,6 @@ function VariantsTable({ rowData, datasetId }) {
           patientParams += `id=${data.results.patients[i].patientId}&`;
         }
 
-        fetch(`${CHORD_METADATA_URL}/api/individuals?${patientParams}`)
-          .then((response) => response.json())
-          .then((chordData) => {
-            if (chordData.results === undefined) {
-              setIndividualsRowData([]);
-              setDisplayIndividualsTable(false);
-              throw new Error('The variant you selected does not have associated individuals.');
-            }
-            setDisplayIndividualsTable(true);
-            setIndividualsRowData(chordData.results);
-          }).catch((err) => {
-            notify(
-              notifyEl,
-              err.message,
-              'warning',
-            );
-          });
       }).catch((err) => {
         notify(
           notifyEl,
