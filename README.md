@@ -25,6 +25,13 @@ Once the installation is completed, you may start the dashboard by running:
 ```bash
 REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca' npm start
 ```
+## Deployment
+
+```bash
+REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca'
+npm run build
+npx http-server --proxy http://0.0.0.0:8080? ./build/
+```
 
 ## Usage
 
