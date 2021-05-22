@@ -33,6 +33,9 @@ ReactDOM.render(
   <SideBar>
   <Router history={hist}>
   <Switch>
+    <Route exact path="/">
+      <Redirect to="/v2/dashboard/overview"></Redirect>
+    </Route>
     <Route exact path="/v2/dashboard" render={() => <Redirect to="/v2/dashboard/overview" />} />
         {routes.map((prop, key) => {
           return (
