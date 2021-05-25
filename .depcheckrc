@@ -1,2 +1,2 @@
-ignores: ["depcheck"]
+ignores: ["depcheck","http-server","igv"]
 skip-missing: true

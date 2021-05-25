@@ -1,4 +1,4 @@
-# CanDIGv2 Dashboard
+# candig-server-beta-dashboard
 
 ### Table of Contents
 - [Installation](#installation)
@@ -15,15 +15,22 @@ Before installing the Dashboard, make sure you have [Node.js](https://nodejs.org
 
 Clone this repository and start the installation using the following commands:
 ```bash
-git clone git@github.com:CanDIG/candigv2_dashboard.git
-cd candigv2_dashboard
+git clone git@github.com:CanDIG/candig-server-beta-dashboard.git
+cd candig-server-beta-dashboard
 npm install
 ```
 That command will install all the dependencies used on the application.
 
-Once the installation is completed, you may start the dashboard using:
+Once the installation is completed, you may start the dashboard by running:
 ```bash
-npm start
+REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca' npm start
+```
+## Deployment
+
+```bash
+export REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL='http://your_candig_server_path.ca'
+npm run build
+npx http-server --proxy http://0.0.0.0:8080? ./build/
 ```
 
 ## Usage
