@@ -8,65 +8,10 @@ import PropTypes from 'prop-types';
 import LoadingIndicator, { trackPromise, usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
 import { notify, NotificationAlert } from '../../utils/alert';
 import { getCounts } from '../../api/api';
+import {hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState} from '../../constants/constants';
 
 // Initialize HighchartsMap
 HighchartsMap(Highcharts);
-
-const initialState = {
-  title: {
-    text: 'Treating Centre Province',
-  },
-  credits: {
-    enabled: false,
-  },
-  legend: {
-    layout: 'vertical',
-    align: 'right',
-    verticalAlign: 'middle',
-  },
-  colorAxis: {
-    min: 0,
-    minColor: '#E6E7E8',
-    maxColor: '#005645',
-  },
-  chart: {
-    reflow: true,
-  },
-  yAxis:{
-    min: -10000,
-  },
-  xAxis:{
-    max: 10000,
-    min: -1000,
-  },
-  series: [
-    {
-      type: 'map',
-      name: 'Province',
-      mapData: mapDataCanada,
-      states: {
-        hover: {
-          color: '#BADA55',
-        },
-      },
-      dataLabels: {
-        enabled: false,
-        format: '{point.name}',
-      },
-    },
-  ],
-};
-
-// Highcharts Map requires a specific set of codes for provinces
-// and territories, as represented by hcProvCodes below.
-const hcProvCodes = [
-  'ca-ab', 'ca-bc', 'ca-mb', 'ca-nb', 'ca-nl', 'ca-nt', 'ca-ns',
-  'ca-nu', 'ca-on', 'ca-pe', 'ca-qc', 'ca-sk', 'ca-yt'];
-const provShortCodes = ['AB', 'BC', 'MB', 'NB', 'NL', 'NT', 'NS', 'NU', 'ON', 'PE', 'QC', 'SK', 'YT'];
-const provFullNames = [
-  'Alberta', 'British Columbia', 'Manitoba', 'New Brunswick', 'Newfoundland and Labrador',
-  'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island',
-  'Quebec', 'Saskatchewan', 'Yukon Territory'];
 
 function reducer(state, action) {
   switch (action.type) {
@@ -74,6 +19,9 @@ function reducer(state, action) {
       return {
         ...state,
         ...{
+          title: {
+            text: 'Treating Centre Province',
+          },
           series: [
             {
               data: action.payload,
@@ -100,7 +48,7 @@ function reducer(state, action) {
 
 function TreatingCentreProvince({ datasetId }) {
   const { promiseInProgress } = usePromiseTracker();
-  const [chartOptions, dispatchChartOptions] = useReducer(reducer, initialState);
+  const [chartOptions, dispatchChartOptions] = useReducer(reducer, highchartsMapInitialState);
   const notifyEl = useRef(null);
 
   function processJson(data) {
