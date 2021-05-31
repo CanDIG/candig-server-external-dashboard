@@ -1,5 +1,5 @@
 import React, { useReducer, useEffect, useRef } from 'react';
-import Highcharts, { geojson } from 'highcharts';
+import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMap from 'highcharts/modules/map';
 import mapDataCanada from '@highcharts/map-collection/countries/ca/ca-all.geo.json';
