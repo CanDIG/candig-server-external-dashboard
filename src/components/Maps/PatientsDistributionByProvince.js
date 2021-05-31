@@ -1,20 +1,20 @@
 import React, { useReducer, useEffect, useRef } from 'react';
-import Highcharts from 'highcharts';
+import Highcharts, { geojson } from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import HighchartsMap from 'highcharts/modules/map';
 import mapDataCanada from '@highcharts/map-collection/countries/ca/ca-all.geo.json';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator, { trackPromise, usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
+import LoadingIndicator, { usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
 import { notify, NotificationAlert } from '../../utils/alert';
-import { getCounts } from '../../api/api';
+
 
 // Initialize HighchartsMap
 HighchartsMap(Highcharts);
 
 const initialState = {
   title: {
-    text: 'Treating Centre Province',
+    text: 'Distribution by Province of Residence',
   },
   credits: {
     enabled: false,
@@ -98,12 +98,12 @@ function reducer(state, action) {
   }
 }
 
-function TreatingCentreProvince({ datasetId }) {
+function PatientsDistributionByProvince({ provinceOfResidenceObj }) {
   const { promiseInProgress } = usePromiseTracker();
   const [chartOptions, dispatchChartOptions] = useReducer(reducer, initialState);
   const notifyEl = useRef(null);
 
-  function processJson(data) {
+  function processData(data){
     const dataCount = [];
     Object.keys(data).forEach((name) => {
       if (provShortCodes.includes(name)) {
@@ -120,40 +120,22 @@ function TreatingCentreProvince({ datasetId }) {
     });
 
     return dataCount;
+
   }
 
   useEffect(() => {
-    // Mimic the didUpdate function
-    try {
-      if (datasetId) {
-        trackPromise(
-          getCounts(datasetId, 'enrollments', 'treatingCentreProvince')
-            .then((data) => {
-              let dataCount;
-
-              if (data) {
-                if (!data.results.enrollments[0]) {
-                  throw new Error();
-                }
-                const { treatingCentreProvince } = data.results.enrollments[0];
-
-                dataCount = processJson(treatingCentreProvince);
-              }
-              dispatchChartOptions({ type: 'addSeries', payload: dataCount });
-            }).catch(() => {
-              notify(
-                notifyEl,
-                'Some resources you requested were not available.',
-                'warning',
-              );
-              dispatchChartOptions({ type: 'addSeries', payload: [] });
-            }),
-        );
-      }
-    } catch (err) {
-      // console.log(err);
+    try{
+      let dataCount = processData(provinceOfResidenceObj);
+      dispatchChartOptions({ type: 'addSeries', payload: dataCount });
+    }catch{
+      notify(
+        notifyEl,
+        'Some resources you requested were not available.',
+        'warning',
+      );
+      dispatchChartOptions({ type: 'addSeries', payload: [] });
     }
-  }, [datasetId]);
+  }, [provinceOfResidenceObj]);
 
   return (
     <>
@@ -173,8 +155,8 @@ function TreatingCentreProvince({ datasetId }) {
   );
 }
 
-TreatingCentreProvince.propTypes = {
-  datasetId: PropTypes.string.isRequired,
+PatientsDistributionByProvince.propTypes = {
+  provinceOfResidenceObj: PropTypes.object.isRequired,
 };
 
-export default TreatingCentreProvince;
+export default PatientsDistributionByProvince;

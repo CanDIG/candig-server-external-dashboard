@@ -14,7 +14,7 @@ import { groupBy } from '../utils/utils';
 import { notify, NotificationAlert } from '../utils/alert';
 import CustomOfflineChart from '../components/Graphs/CustomOfflineChart';
 import { fetchPatients } from '../api/api';
-
+import PatientsDistributionByProvinceMapChart from '../components/Maps/PatientsDistributionByProvince'
 /*
  * Patient Overview view component
  * @param {string} datasetName
@@ -206,13 +206,7 @@ function PatientsOverview({ datasetName, datasetId }) {
                 {promiseInProgress === true ? (
                   <LoadingIndicator />
                 ) : (
-                  <CustomOfflineChart
-                    datasetName={datasetName}
-                    dataObject={provinceOfResidenceObj}
-                    chartType="pie"
-                    barTitle="Province Of Residence"
-                    height="400px; auto"
-                  />
+                  <PatientsDistributionByProvinceMapChart provinceOfResidenceObj={provinceOfResidenceObj} />
                 )}
               </CardBody>
             </Card>
