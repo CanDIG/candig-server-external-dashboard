@@ -206,7 +206,7 @@ function PatientsOverview({ datasetName, datasetId }) {
                 {promiseInProgress === true ? (
                   <LoadingIndicator />
                 ) : (
-                  <PatientsDistributionByProvinceMapChart provinceOfResidenceObj={provinceOfResidenceObj} />
+                  <PatientsDistributionByProvinceMapChart provinceOfResidenceObj={JSON.stringify(provinceOfResidenceObj)} />
                 )}
               </CardBody>
             </Card>

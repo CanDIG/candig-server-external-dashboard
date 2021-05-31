@@ -7,7 +7,9 @@ import PropTypes from 'prop-types';
 
 import LoadingIndicator, { usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
 import { notify, NotificationAlert } from '../../utils/alert';
-import {hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState} from '../../constants/constants';
+import {
+  hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState,
+} from '../../constants/constants';
 
 // Initialize HighchartsMap
 HighchartsMap(Highcharts);
@@ -50,7 +52,7 @@ function PatientsDistributionByProvince({ provinceOfResidenceObj }) {
   const [chartOptions, dispatchChartOptions] = useReducer(reducer, highchartsMapInitialState);
   const notifyEl = useRef(null);
 
-  function processData(data){
+  function processData(data) {
     const dataCount = [];
     Object.keys(data).forEach((name) => {
       if (provShortCodes.includes(name)) {
@@ -67,14 +69,13 @@ function PatientsDistributionByProvince({ provinceOfResidenceObj }) {
     });
 
     return dataCount;
-
   }
 
   useEffect(() => {
-    try{
-      let dataCount = processData(provinceOfResidenceObj);
+    try {
+      const dataCount = processData(provinceOfResidenceObj);
       dispatchChartOptions({ type: 'addSeries', payload: dataCount });
-    }catch{
+    } catch {
       notify(
         notifyEl,
         'Some resources you requested were not available.',
@@ -103,7 +104,7 @@ function PatientsDistributionByProvince({ provinceOfResidenceObj }) {
 }
 
 PatientsDistributionByProvince.propTypes = {
-  provinceOfResidenceObj: PropTypes.object.isRequired,
+  provinceOfResidenceObj: PropTypes.string.isRequired,
 };
 
 export default PatientsDistributionByProvince;

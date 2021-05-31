@@ -8,7 +8,9 @@ import PropTypes from 'prop-types';
 import LoadingIndicator, { trackPromise, usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
 import { notify, NotificationAlert } from '../../utils/alert';
 import { getCounts } from '../../api/api';
-import {hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState} from '../../constants/constants';
+import {
+  hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState,
+} from '../../constants/constants';
 
 // Initialize HighchartsMap
 HighchartsMap(Highcharts);
