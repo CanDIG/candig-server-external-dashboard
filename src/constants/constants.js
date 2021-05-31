@@ -37,34 +37,34 @@ export const provFullNames = [
   'Northwest Territories', 'Nova Scotia', 'Nunavut', 'Ontario', 'Prince Edward Island',
   'Quebec', 'Saskatchewan', 'Yukon Territory'];
 
-  // Intial Highcharts state 
- export const highchartsMapInitialState = {
-    title: {
-      text: '',
-    },
-    credits: {
-      enabled: false,
-    },
-    legend: {
-      layout: 'vertical',
-      align: 'right',
-      verticalAlign: 'middle',
-    },
-    colorAxis: {
-      min: 0,
-      minColor: '#E6E7E8',
-      maxColor: '#005645',
-    },
-    chart: {
-      reflow: true,
-    },
-    yAxis:{
-      min: -10000,
-    },
-    xAxis:{
-      max: 10000,
-      min: -1000,
-    },
-  };
+// Intial Highcharts state
+export const highchartsMapInitialState = {
+  title: {
+    text: '',
+  },
+  credits: {
+    enabled: false,
+  },
+  legend: {
+    layout: 'vertical',
+    align: 'right',
+    verticalAlign: 'middle',
+  },
+  colorAxis: {
+    min: 0,
+    minColor: '#E6E7E8',
+    maxColor: '#005645',
+  },
+  chart: {
+    reflow: true,
+  },
+  yAxis: {
+    min: -10000,
+  },
+  xAxis: {
+    max: 10000,
+    min: -1000,
+  },
+};
 
 export default BASE_URL;

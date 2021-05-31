@@ -14,7 +14,7 @@ import { groupBy } from '../utils/utils';
 import { notify, NotificationAlert } from '../utils/alert';
 import CustomOfflineChart from '../components/Graphs/CustomOfflineChart';
 import { fetchPatients } from '../api/api';
-import PatientsDistributionByProvinceMapChart from '../components/Maps/PatientsDistributionByProvince'
+import PatientsDistributionByProvinceMapChart from '../components/Maps/PatientsDistributionByProvince';
 /*
  * Patient Overview view component
  * @param {string} datasetName
