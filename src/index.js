@@ -31,7 +31,7 @@ import AdminLayout from "layouts/Admin.js";
 const hist = createBrowserHistory();
 ReactDOM.render(
   <SideBar>
-  <Router history={hist}>
+  <Router history={hist} basename={'/v2/dashboard'}>
   <Switch>
     <Route exact path="/">
       <Redirect to="/v2/dashboard/overview"></Redirect>
