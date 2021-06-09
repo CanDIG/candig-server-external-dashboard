@@ -13,18 +13,23 @@ import '../assets/css/VariantsSearch.css';
 
 function VariantsSearch({ datasetId }) {
   const [rowData, setRowData] = useState([]);
+  const [loadingIndicator, setLoadingIndicator] = useState('');
   const [displayVariantsTable, setDisplayVariantsTable] = useState(false);
   const notifyEl = useRef(null);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
+    setLoadingIndicator('🕛  Loading...');
+    setDisplayVariantsTable(false);
 
     // searchVariant(datasetId, e.target.start.value, e.target.end.value,)
     searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.referenceName.value)
       .then((data) => {
+        setLoadingIndicator('');
         setDisplayVariantsTable(true);
         setRowData(data.results.variants);
       }).catch(() => {
+        setLoadingIndicator('');
         setRowData([]);
         setDisplayVariantsTable(false);
         notify(
@@ -76,6 +81,12 @@ function VariantsSearch({ datasetId }) {
 
           <Button>Search</Button>
         </Form>
+
+        <Row style={{ marginTop: '50px' }}>
+          <div className="ml-auto mr-auto">
+            {loadingIndicator}
+          </div>
+        </Row>
 
         {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : null }
       </div>
