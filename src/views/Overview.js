@@ -5,8 +5,7 @@ import {
   Card, CardBody, CardTitle, Row, Col,
 } from 'reactstrap';
 
-// Consts
-import BASEURL from 'constants/constants';
+import {connect} from 'react-redux'
 
 import Server from './../components/Graphs/Server.js';
 import BarChart from './../components/Graphs/BarChart.js';
@@ -31,8 +30,8 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.datasetId) {
-      this.fetchData(this.props.datasetId);
+    if (this.props.events.setData.update.datasetId) {
+      this.fetchData(this.props.events.setData.update.datasetId);
     }
   }
 
@@ -197,7 +196,7 @@ class Dashboard extends React.Component {
             <Col lg="3" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <Server datasetId={this.state.datasetId} />
+                  <Server datasetId={this.props.events.setData.update.datasetId} />
                 </CardBody>
               </Card>
             </Col>
@@ -205,7 +204,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={this.props.events.setData.update.datasetId}
                     table="patients"
                     field="gender"
                     title="Gender Distribution"
@@ -217,7 +216,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={this.props.events.setData.update.datasetId}
                     table="treatments"
                     field="therapeuticModality"
                     title="Treatment Modalities"
@@ -229,7 +228,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={this.props.events.setData.update.datasetId}
                     table="enrollments"
                     field="enrollmentInstitution"
                     title="Enrollment Institutions"
@@ -242,14 +241,14 @@ class Dashboard extends React.Component {
             <Col lg="6" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <TreatingCentreProvince datasetId={this.props.datasetId} />
+                  <TreatingCentreProvince datasetId={this.props.events.setData.update.datasetId} />
                 </CardBody>
               </Card>
             </Col>
             <Col lg="6" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <CancerType datasetId={this.props.datasetId} />
+                  <CancerType datasetId={this.props.events.setData.update.datasetId} />
                 </CardBody>
               </Card>
             </Col>
@@ -260,4 +259,10 @@ class Dashboard extends React.Component {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {
+      events: state
+  }
+}
+
+export default connect(mapStateToProps)(Dashboard);

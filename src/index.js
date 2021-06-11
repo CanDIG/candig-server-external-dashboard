@@ -28,23 +28,42 @@ import "assets/demo/demo.css";
 import "perfect-scrollbar/css/perfect-scrollbar.css";
 import routes from "./routes";
 import AdminLayout from "layouts/Admin.js";
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import { loadState, saveState } from "store/sessionStorage";
+import reducer from 'store/reducer';
+
+const persistentState = loadState();
+const store = createStore(reducer, persistentState);
+
+store.subscribe(()=>{
+  saveState(store.getState({
+    selectedDataset: store.getState.selectedDataset,
+    datasets: store.getState.datasets,
+    update: store.getState.update
+  }));
+ 
+})
+
 const hist = createBrowserHistory();
 ReactDOM.render(
-  <SideBar>
-  <Router history={hist}>
-  <Switch>
-    <Route exact path="/v2/dashboard" render={() => <Redirect to="/v2/dashboard/overview" />} />
-        {routes.map((prop, key) => {
-          return (
-            <Route
-              path={prop.layout + prop.path}
-              key={key}
-              render={(prop) => <AdminLayout {...prop} />}
-            />
-          );
-        })}
-    </Switch>
-  </Router>
-  </SideBar>,
+  <Provider store={store}>
+    <SideBar>
+      <Router history={hist}>
+        <Switch>
+          <Route exact path="/v2/dashboard" render={() => <Redirect to="/v2/dashboard/overview" />} />
+            {routes.map((prop, key) => {
+              return (
+                <Route
+                  path={prop.layout + prop.path}
+                  key={key}
+                  render={(prop) => <AdminLayout {...prop} />}
+                />
+              );
+            })}
+        </Switch>
+      </Router>
+    </SideBar>
+  </Provider>,
   document.getElementById("root")
 );

@@ -28,8 +28,6 @@ import Sidebar from "components/Sidebar/Sidebar.js";
 
 import routes from "./../routes.js";
 
-import BASE_URL from "../constants/constants";
-
 let ps;
 
 class Dashboard extends React.Component {

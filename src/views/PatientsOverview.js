@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import PropTypes from 'prop-types';
+
 // reactstrap components
 import {
   Card, CardBody, CardTitle, Row, Col,
 } from 'reactstrap';
 import useStateWithCallback from 'use-state-with-callback';
 
+import { useSelector } from 'react-redux';
 import LoadingIndicator, {
   trackPromise,
   usePromiseTracker,
@@ -15,12 +16,14 @@ import { notify, NotificationAlert } from '../utils/alert';
 import CustomOfflineChart from '../components/Graphs/CustomOfflineChart';
 import { fetchPatients } from '../api/api';
 import PatientsDistributionByProvinceMapChart from '../components/Maps/PatientsDistributionByProvince';
+
 /*
  * Patient Overview view component
  * @param {string} datasetName
  * @param {string} datasetId
  */
-function PatientsOverview({ datasetName, datasetId }) {
+function PatientsOverview() {
+  const events = useSelector((state) => state);
   const [patientsCount, setPatientsCount] = useState();
   const [provincesCount, setProvincesCount] = useState('');
   const [genderObj, setGenderObj] = useState({});
@@ -39,7 +42,8 @@ function PatientsOverview({ datasetName, datasetId }) {
     occupationalOrEnvironmentalExposureObj,
     setOccupationalOrEnvironmentalExposureObj,
   ] = useState({});
-
+  const { datasetName } = events.setData.update;
+  const { datasetId } = events.setData.update;
   const { promiseInProgress } = usePromiseTracker();
   const notifyEl = useRef(null);
 
@@ -233,10 +237,5 @@ function PatientsOverview({ datasetName, datasetId }) {
     </>
   );
 }
-
-PatientsOverview.propTypes = {
-  datasetName: PropTypes.string.isRequired,
-  datasetId: PropTypes.string.isRequired,
-};
 
 export default PatientsOverview;
