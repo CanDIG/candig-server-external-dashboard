@@ -28,10 +28,6 @@ const setData = (state=DEFAULT, action)=>{
                 ...state,
                 selectedDataset: '',
                 datasets: {},  
-                update: {
-                    datasetName: '',
-                    datasetId: '',
-                }
             }
     }
 }
