@@ -19,8 +19,6 @@ import PatientsDistributionByProvinceMapChart from '../components/Maps/PatientsD
 
 /*
  * Patient Overview view component
- * @param {string} datasetName
- * @param {string} datasetId
  */
 function PatientsOverview() {
   const events = useSelector((state) => state);
@@ -42,8 +40,7 @@ function PatientsOverview() {
     occupationalOrEnvironmentalExposureObj,
     setOccupationalOrEnvironmentalExposureObj,
   ] = useState({});
-  const { datasetName } = events.setData.update;
-  const { datasetId } = events.setData.update;
+  const { datasetName, datasetId } = events.setData.update;
   const { promiseInProgress } = usePromiseTracker();
   const notifyEl = useRef(null);
 
@@ -210,7 +207,7 @@ function PatientsOverview() {
                 {promiseInProgress === true ? (
                   <LoadingIndicator />
                 ) : (
-                  <PatientsDistributionByProvinceMapChart provinceOfResidenceObj={JSON.stringify(provinceOfResidenceObj)} />
+                  <PatientsDistributionByProvinceMapChart provinceOfResidenceObj={provinceOfResidenceObj} />
                 )}
               </CardBody>
             </Card>

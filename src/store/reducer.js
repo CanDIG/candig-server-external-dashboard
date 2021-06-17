@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux';
 
-const DEFAULT = [{}];
-
-const setData = (state=DEFAULT, action)=>{
+const setData = (state, action)=>{
     switch(action.type){
         case "SET_SELECTED_DATASET":
             return {
@@ -28,6 +26,10 @@ const setData = (state=DEFAULT, action)=>{
                 ...state,
                 selectedDataset: '',
                 datasets: {},  
+                update: {
+                    datasetName: '',
+                    datasetId: '',
+                }
             }
     }
 }

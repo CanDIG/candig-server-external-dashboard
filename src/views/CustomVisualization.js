@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 // reactstrap components
 import { Row, Col, Container } from 'reactstrap';
 
+import { useSelector } from 'react-redux';
 import CustomVisualizationDropDown from '../components/Dropdowns/CustomVisualizationDropDown';
 
 /*
@@ -10,7 +10,10 @@ import CustomVisualizationDropDown from '../components/Dropdowns/CustomVisualiza
  * @param {string} datasetId
  * @param {string} datasetName
  */
-function CustomVisualization({ datasetId, datasetName }) {
+function CustomVisualization() {
+  const events = useSelector((state) => state);
+  const { datasetName } = events.setData.update;
+  const { datasetId } = events.setData.update;
   return (
     <>
       <div className="content">
@@ -34,10 +37,5 @@ function CustomVisualization({ datasetId, datasetName }) {
     </>
   );
 }
-
-CustomVisualization.propTypes = {
-  datasetId: PropTypes.string.isRequired,
-  datasetName: PropTypes.string.isRequired,
-};
 
 export default CustomVisualization;

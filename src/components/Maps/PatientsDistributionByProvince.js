@@ -104,7 +104,7 @@ function PatientsDistributionByProvince({ provinceOfResidenceObj }) {
 }
 
 PatientsDistributionByProvince.propTypes = {
-  provinceOfResidenceObj: PropTypes.string.isRequired,
+  provinceOfResidenceObj: PropTypes.objectOf(PropTypes.number).isRequired,
 };
 
 export default PatientsDistributionByProvince;
