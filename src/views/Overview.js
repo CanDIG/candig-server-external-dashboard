@@ -1,113 +1,82 @@
 /* eslint-disable */
-import React from 'react';
+import React, {useState} from 'react';
 // reactstrap components
 import {
   Card, CardBody, CardTitle, Row, Col,
 } from 'reactstrap';
 
-// Consts
-import BASEURL from 'constants/constants';
+import { useSelector, useDispatch } from 'react-redux';
 
 import Server from './../components/Graphs/Server.js';
 import BarChart from './../components/Graphs/BarChart.js';
 import CancerType from './../components/Graphs/CancerType.js';
 import TreatingCentreProvince from './../components/Maps/TreatingCentreProvince';
 
-import {getCounts} from '../api/api'
+import {getCounts} from '../api/api';
 
-const initialState = {
-  datasetName: '',
-  datasetId: '',
-  provinces: 0,
-  hospitals: 0,
-  patients: 0,
-  samples: 0,
-};
+/*
+ * Overview view component
+ */
 
-class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = initialState;
-  }
+function Dashboard(){
+  const events = useSelector((state) => state);
 
-  componentDidMount() {
-    if (this.props.datasetId) {
-      this.fetchData(this.props.datasetId);
-    }
-  }
+  const [datasetId, setDatasetId] = useState(events.setData.update.datasetId);
+  const [provinces, setProvinces] = useState(0);
+  const [hospitals, setHospitals] = useState(0);
+  const [patients, setPatients] = useState(0);
+  const [samples, setSamples] = useState(0);
 
-  fetchData(datasetId) {
-    if (datasetId) {
-      this.getCounters(datasetId, 'enrollments', [
-        'datasetId',
-        'treatingCentreName',
-        'treatingCentreProvince',
-      ]);
-      this.getCounters(datasetId, 'samples', ['datasetId']);
-    }
-  }
-
-  getCounters(datasetId, table, fields) {
-    getCounts(datasetId, table, fields)
-      .then((data) => {
-        if (table === 'enrollments') {
-          const datasetId = this.getDatadetIdFromEnrollments(data);
-          this.setState({
-            patients: data.results.enrollments[0].datasetId[datasetId],
-            hospitals: Object.keys(
-              data.results.enrollments[0].treatingCentreName,
-            ).length,
-            provinces: Object.keys(
-              data.results.enrollments[0].treatingCentreProvince,
-            ).length,
-            samples: this.state.samples,
-          });
-        } else if (table === 'samples') {
-          const datasetId = this.getDatadetIdFromSamples(data);
-          this.setState({
-            patients: this.state.patients,
-            hospitals: this.state.hospitals,
-            provinces: this.state.provinces,
-            samples: data.results.samples[0].datasetId[datasetId],
-          });
-        }
-      })
-      .catch((err) => {
-        this.setState({
-          datasetName: '',
-          datasetId: '',
-          provinces: 'Not Available',
-          hospitals: 'Not Available',
-          patients: 'Not Available',
-          samples: 'Not Available',
-        });
-      });
-  }
-
-  getDatadetIdFromEnrollments(data) {
+  
+  function getDatadetIdFromEnrollments(data){
     return Object.keys(data.results.enrollments[0].datasetId)[0];
   }
 
-  getDatadetIdFromSamples(data) {
+  function getDatadetIdFromSamples(data){
     return Object.keys(data.results.samples[0].datasetId)[0];
   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.datasetId !== prevProps.datasetId) {
-      this.setState({
-        datasetId: this.props.datasetId,
-        datasetName: this.props.datasetId,
+  function getCounters(datasetId, table, fields){
+    getCounts(datasetId, table, fields)
+      .then((data) => {
+        if (table === 'enrollments') {
+          setDatasetId(getDatadetIdFromEnrollments(data));
+          setPatients(data.results.enrollments[0].datasetId[datasetId]);
+          setHospitals(Object.keys(
+            data.results.enrollments[0].treatingCentreName,
+          ).length);
+          setProvinces(Object.keys(
+            data.results.enrollments[0].treatingCentreProvince,
+          ).length);
+        } else if (table === 'samples') {
+          const datasetId = getDatadetIdFromSamples(data);
+          setSamples(data.results.samples[0].datasetId[datasetId]); 
+        }
+      })
+      .catch((err) => {
+        setDatasetId('');
+        setProvinces('Not Available');
+        setHospitals('Not Available');
+        setPatients('Not Available');
+        setSamples('Not Available');      
       });
-      this.getCounters(this.props.datasetId, 'enrollments', [
+  }
+
+  function fetchData(datasetId){
+    if (datasetId) {
+      getCounters(datasetId, 'enrollments', [
         'datasetId',
         'treatingCentreName',
         'treatingCentreProvince',
       ]);
-      this.getCounters(this.props.datasetId, 'samples', ['datasetId']);
+      getCounters(datasetId, 'samples', ['datasetId']);
     }
   }
-
-  render() {
+ 
+  if (events.setData.update.datasetId) {
+      fetchData(events.setData.update.datasetId);
+  }
+  
     return (
       <>
         <div className="content">
@@ -124,7 +93,7 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Provinces</p>
-                        <CardTitle tag="p">{this.state.provinces}</CardTitle>
+                        <CardTitle tag="p">{provinces}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -144,7 +113,7 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Hospitals</p>
-                        <CardTitle tag="p">{this.state.hospitals}</CardTitle>
+                        <CardTitle tag="p">{hospitals}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -164,7 +133,7 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Patients</p>
-                        <CardTitle tag="p">{this.state.patients}</CardTitle>
+                        <CardTitle tag="p">{patients}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -184,7 +153,7 @@ class Dashboard extends React.Component {
                     <Col md="8" xs="7">
                       <div className="numbers">
                         <p className="card-category">Samples</p>
-                        <CardTitle tag="p">{this.state.samples}</CardTitle>
+                        <CardTitle tag="p">{samples}</CardTitle>
                         <p />
                       </div>
                     </Col>
@@ -197,7 +166,7 @@ class Dashboard extends React.Component {
             <Col lg="3" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <Server datasetId={this.state.datasetId} />
+                  <Server datasetId={datasetId} />
                 </CardBody>
               </Card>
             </Col>
@@ -205,7 +174,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={datasetId}
                     table="patients"
                     field="gender"
                     title="Gender Distribution"
@@ -217,7 +186,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={datasetId}
                     table="treatments"
                     field="therapeuticModality"
                     title="Treatment Modalities"
@@ -229,7 +198,7 @@ class Dashboard extends React.Component {
               <Card>
                 <CardBody>
                   <BarChart
-                    datasetId={this.props.datasetId}
+                    datasetId={datasetId}
                     table="enrollments"
                     field="enrollmentInstitution"
                     title="Enrollment Institutions"
@@ -242,14 +211,14 @@ class Dashboard extends React.Component {
             <Col lg="6" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <TreatingCentreProvince datasetId={this.props.datasetId} />
+                  <TreatingCentreProvince datasetId={datasetId} />
                 </CardBody>
               </Card>
             </Col>
             <Col lg="6" md="6" sm="6">
               <Card>
                 <CardBody>
-                  <CancerType datasetId={this.props.datasetId} />
+                  <CancerType datasetId={datasetId} />
                 </CardBody>
               </Card>
             </Col>
@@ -258,6 +227,5 @@ class Dashboard extends React.Component {
       </>
     );
   }
-}
 
 export default Dashboard;

@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
 import {
   Button, Form, FormGroup, Label, Input, Row, UncontrolledAlert,
 } from 'reactstrap';
+
+import { useSelector } from 'react-redux';
 
 import VariantsTable from '../components/Tables/VariantsTable';
 import { searchVariant } from '../api/api';
@@ -11,7 +12,9 @@ import { notify, NotificationAlert } from '../utils/alert';
 
 import '../assets/css/VariantsSearch.css';
 
-function VariantsSearch({ datasetId }) {
+function VariantsSearch() {
+  const events = useSelector((state) => state);
+  const { datasetId } = events.setData.update;
   const [rowData, setRowData] = useState([]);
   const [displayVariantsTable, setDisplayVariantsTable] = useState(false);
   const notifyEl = useRef(null);
@@ -82,9 +85,5 @@ function VariantsSearch({ datasetId }) {
     </>
   );
 }
-
-VariantsSearch.propTypes = {
-  datasetId: PropTypes.string.isRequired,
-};
 
 export default VariantsSearch;

@@ -6,6 +6,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
+import { useSelector, useDispatch } from 'react-redux';
 import { fetchDatasets } from '../../api/api';
 
 /*
@@ -13,10 +14,12 @@ import { fetchDatasets } from '../../api/api';
  * @param{func} A method that updates the state on the parent
  */
 function DatasetsDropdown({ updateState }) {
-  const [selectedDataset, setSelectedDataset] = useState('');
-  const [datasets, setDatasets] = useState({});
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const events = useSelector((state) => state);
+  const dispatch = useDispatch();
 
+  const [selectedDataset, setSelectedDataset] = useState(events.setData.selectedDataset);
+  const [datasets, setDatasets] = useState(events.setData.datasets);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const toggle = () => setDropdownOpen((prevState) => !prevState);
 
   /*
@@ -25,10 +28,8 @@ function DatasetsDropdown({ updateState }) {
    * @param {string} datasetId
    */
   function updateParentState(datasetName, datasetId) {
-    updateState({
-      datasetName,
-      datasetId,
-    });
+    dispatch({ type: 'SET_UPDATE_STATE', payload: { datasetName, datasetId } });
+    updateState(events.setData.update);
   }
 
   /*
@@ -39,6 +40,7 @@ function DatasetsDropdown({ updateState }) {
     const firstDataset = datasetsList[Object.keys(datasetsList)[0]];
     setSelectedDataset(firstDataset.name);
     updateParentState(firstDataset.name, firstDataset.id);
+    dispatch({ type: 'SET_SELECTED_DATASET', payload: firstDataset.name });
   }
 
   /*
@@ -64,6 +66,7 @@ function DatasetsDropdown({ updateState }) {
           const datasetsList = processDatasetJson(data.results.datasets);
           setDatasets(datasetsList);
           setFirstDataset(datasetsList);
+          dispatch({ type: 'SET_DATASETS', payload: datasetsList });
         });
     }
   });
@@ -74,6 +77,7 @@ function DatasetsDropdown({ updateState }) {
   function handleClick(e) {
     setSelectedDataset(e.currentTarget.textContent);
     updateParentState(e.currentTarget.textContent, e.currentTarget.id);
+    dispatch({ type: 'SET_SELECTED_DATASET', payload: e.currentTarget.textContent });
   }
 
   // This loop builds the dropdown items list
