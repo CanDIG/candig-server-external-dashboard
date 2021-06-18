@@ -20,27 +20,15 @@ import {getCounts} from '../api/api';
 
 function Dashboard(){
   const events = useSelector((state) => state);
-
-  const [datasetId, setDatasetId] = useState(events.setData.update.datasetId);
+  const { datasetId } = events.setData.update;
   const [provinces, setProvinces] = useState(0);
   const [hospitals, setHospitals] = useState(0);
   const [patients, setPatients] = useState(0);
   const [samples, setSamples] = useState(0);
 
-  
-  function getDatadetIdFromEnrollments(data){
-    return Object.keys(data.results.enrollments[0].datasetId)[0];
-  }
-
-  function getDatadetIdFromSamples(data){
-    return Object.keys(data.results.samples[0].datasetId)[0];
-  }
-
-  function getCounters(datasetId, table, fields){
+  function getEnrollmentsCounters(datasetId, table, fields){
     getCounts(datasetId, table, fields)
       .then((data) => {
-        if (table === 'enrollments') {
-          setDatasetId(getDatadetIdFromEnrollments(data));
           setPatients(data.results.enrollments[0].datasetId[datasetId]);
           setHospitals(Object.keys(
             data.results.enrollments[0].treatingCentreName,
@@ -48,28 +36,32 @@ function Dashboard(){
           setProvinces(Object.keys(
             data.results.enrollments[0].treatingCentreProvince,
           ).length);
-        } else if (table === 'samples') {
-          const datasetId = getDatadetIdFromSamples(data);
-          setSamples(data.results.samples[0].datasetId[datasetId]); 
-        }
       })
       .catch((err) => {
-        setDatasetId('');
         setProvinces('Not Available');
         setHospitals('Not Available');
         setPatients('Not Available');
-        setSamples('Not Available');      
+      });
+  }
+
+  function getSampleCounters(datasetId, table, fields){
+    getCounts(datasetId, table, fields)
+      .then((data) => {
+          setSamples(data.results.samples[0].datasetId[datasetId]);
+      })
+      .catch((err) => {
+        setSamples('Not Available');
       });
   }
 
   function fetchData(datasetId){
     if (datasetId) {
-      getCounters(datasetId, 'enrollments', [
+      getEnrollmentsCounters(datasetId, 'enrollments', [
         'datasetId',
         'treatingCentreName',
         'treatingCentreProvince',
       ]);
-      getCounters(datasetId, 'samples', ['datasetId']);
+      getSampleCounters(datasetId, 'samples', ['datasetId']);
     }
   }
  
