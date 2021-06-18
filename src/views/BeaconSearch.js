@@ -68,7 +68,7 @@ function BeaconSearch() {
   Hide table and throw warning if the search range is > 5000.
   * @param {string}... start
   * @param {string}... end
-  * Return false if the range is > 5000.
+  * Return false if the range is > 5000, true otherwise.
   */
   function validateForm(start, end) {
     if ((Number(end) - Number(start)) > 5000) {
@@ -80,6 +80,8 @@ function BeaconSearch() {
       setDisplayBeaconTable(false);
       return false;
     }
+
+    return true;
   }
 
   const formHandler = (e) => {
