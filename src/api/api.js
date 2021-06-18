@@ -107,10 +107,62 @@ function searchVariant(datasetId, start, end, referenceName) {
   });
 }
 
+/*
+Fetch variants and returns a promise
+ * @param {string}... datasetId
+ * @param {string}... Start
+ * @param {string}... End
+ * @param {string}... Reference name
+*/
+function searchBeaconRange(datasetId, start, end, referenceName) {
+  return fetch(`${BASE_URL}/variants/beacon/range/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      start,
+      end,
+      referenceName,
+      datasetId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
+/*
+Fetch variants and returns a promise
+ * @param {string}... datasetId
+ * @param {string}... Start
+ * @param {string}... End
+ * @param {string}... Reference name
+*/
+function searchBeaconFreq(datasetId, start, end, referenceName) {
+  return fetch(`${BASE_URL}/variants/beacon/allele/freq/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      start,
+      end,
+      referenceName,
+      datasetId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
 export {
   fetchPatients,
   fetchDatasets,
   getCounts,
   fetchServers,
   searchVariant,
+  searchBeaconRange,
+  searchBeaconFreq,
 };
