@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Button, Form, FormGroup, Label, Input, Row,
+  Button, Form, FormText, FormGroup, Label, Input, Row, UncontrolledPopover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
-
 import {
   searchBeaconFreq, searchBeaconRange,
 } from '../api/api';
@@ -59,11 +58,24 @@ function BeaconSearch() {
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
     const mode = e.target.requestMode.value;
+    const start = e.target.start.value;
+    const end = e.target.end.value;
+
+    // validate form input
+    if ((Number(end) - Number(start)) > 5000) {
+      notify(
+        notifyEl,
+        'The maximum range you could search for is 5000 bps.',
+        'warning',
+      );
+      setDisplayBeaconTable(false);
+      return; // prevent the code below from running
+    }
 
     setDisplayBeaconTable(false);
     setLoadingIndicator('🕛  Loading...');
 
-    requestModeFunc[mode](datasetId, e.target.start.value, e.target.end.value, e.target.referenceName.value)
+    requestModeFunc[mode](datasetId, start, end, e.target.referenceName.value)
       .then((data) => {
         setLoadingIndicator('');
         if (data.results.variants.length !== 0) {
@@ -103,14 +115,20 @@ function BeaconSearch() {
         <Form onSubmit={formHandler} style={{ justifyContent: 'center' }}>
 
           <Row style={{ justifyContent: 'center' }}>
-            <FormGroup inline>
+            <FormGroup>
               <Label for="start" style={{ float: 'left' }}>Start</Label>
-              <Input required type="number" id="start" />
+              <Input required type="number" id="start" min="0" />
+              <FormText className="text-muted">
+                Min value is 0.
+              </FormText>
             </FormGroup>
 
             <FormGroup>
               <Label for="end">End</Label>
               <Input required type="number" id="end" />
+              <FormText className="text-muted">
+                Max search range is 5000.
+              </FormText>
             </FormGroup>
 
             <FormGroup>
@@ -125,14 +143,39 @@ function BeaconSearch() {
               <Input required type="select" id="requestMode">
                 {
                     [
-                      <option key="range" value="range">Existence Search</option>,
+                      <option key="range" value="range">Range Search</option>,
                       <option key="freq" value="freq">Allele Frequency Search</option>,
                     ]
                   }
               </Input>
             </FormGroup>
 
-            <Button>Search</Button>
+            <Button color="info" id="PopoverFocus" type="Button" style={{ marginRight: '10px', marginTop: '30px' }}>
+              HELP
+            </Button>
+            <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
+              <PopoverHeader>Beacon Search</PopoverHeader>
+              <PopoverBody>
+                <p>
+                  <b>Note: </b>
+                  Coordinates are 0-based.
+                </p>
+                <p>
+                  <b>Range search mode</b>
+                  {' '}
+                  returns variants above reporting threshold, if available.
+                </p>
+                <p>
+                  <b>Allele Frequency mode</b>
+                  {' '}
+                  returns allele frequency info of variants, if available.
+                </p>
+                <p>Each search is limited to 5,000 bps.</p>
+
+              </PopoverBody>
+            </UncontrolledPopover>
+
+            <Button style={{ marginTop: '30px' }}>Search</Button>
           </Row>
 
         </Form>
