@@ -16,6 +16,7 @@ function BeaconTable({ columnDefs, rowData, datasetId }) {
     defaultColDef: {
       editable: false,
       sortable: true,
+      resizable: true,
       wrapText: true,
       autoHeight: true,
       filter: true,

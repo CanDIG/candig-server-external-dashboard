@@ -30,7 +30,11 @@ function BeaconSearch() {
     setDisplayBeaconTable(false);
   }, [datasetId]);
 
-  // Build the dropdown for referenceName
+  /*
+  Build the dropdown for referenceName
+  * @param {None}
+  * Return a list of options with referenceNames
+  */
   function refNameSelectBuilder() {
     const refNameList = [];
 
@@ -47,6 +51,11 @@ function BeaconSearch() {
     return refNameList;
   }
 
+  /*
+  Stringify the Allele Freq object to be displayed in ag-grid table.
+  * @param {array}... records
+  * Return a list of records with stringified Allele Freq object
+  */
   function processFreqVariantsResults(records) {
     const processedRecords = records;
     for (let i = 0; i < processedRecords.length; i += 1) {
@@ -55,13 +64,13 @@ function BeaconSearch() {
     return records;
   }
 
-  const formHandler = (e) => {
-    e.preventDefault(); // Prevent form submission
-    const mode = e.target.requestMode.value;
-    const start = e.target.start.value;
-    const end = e.target.end.value;
-
-    // validate form input
+  /*
+  Hide table and throw warning if the search range is > 5000.
+  * @param {string}... start
+  * @param {string}... end
+  * Return false if the range is > 5000.
+  */
+  function validateForm(start, end) {
     if ((Number(end) - Number(start)) > 5000) {
       notify(
         notifyEl,
@@ -69,10 +78,20 @@ function BeaconSearch() {
         'warning',
       );
       setDisplayBeaconTable(false);
+      return false;
+    }
+  }
+
+  const formHandler = (e) => {
+    e.preventDefault(); // Prevent form submission
+    const mode = e.target.requestMode.value;
+    const start = e.target.start.value;
+    const end = e.target.end.value;
+
+    if (validateForm(start, end) === false) {
       return; // prevent the code below from running
     }
 
-    setDisplayBeaconTable(false);
     setLoadingIndicator('🕛  Loading...');
 
     requestModeFunc[mode](datasetId, start, end, e.target.referenceName.value)
