@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Button, Form, FormText, FormGroup, Label, Input, Row, UncontrolledPopover, PopoverHeader, PopoverBody,
+  Card, CardBody, CardTitle, Row, Col, Button, Form, FormText, FormGroup, Label, Input, UncontrolledPopover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import {
-  searchBeaconFreq, searchBeaconRange,
+  searchBeaconFreq, searchBeaconRange, searchVariantSets, getReferenceSet,
 } from '../api/api';
 import BeaconTable from '../components/Tables/BeaconTable';
 
 import { notify, NotificationAlert } from '../utils/alert';
+import LoadingIndicator, {
+  usePromiseTracker,
+  trackPromise,
+} from '../components/LoadingIndicator/LoadingIndicator';
 
 // Consts
 import { BeaconFreqTableColumnDefs, BeaconRangeTableColumnDefs, ListOfReferenceNames } from '../constants/constants';
@@ -22,12 +26,43 @@ function BeaconSearch() {
   const [activeColumnDefs, setActiveColumnDefs] = useState([]);
   const [loadingIndicator, setLoadingIndicator] = useState('');
   const [displayBeaconTable, setDisplayBeaconTable] = useState(false);
+  const [variantSet, setVariantSets] = useState('');
+  const [referenceSetName, setReferenceSetName] = useState('');
   const requestModeFunc = { range: searchBeaconRange, freq: searchBeaconFreq };
   const notifyEl = useRef(null);
+  const { promiseInProgress } = usePromiseTracker();
+
+  /*
+  Fetches reference set Name and sets referenceSetName
+  * @param {string}... referenceSetId
+  */
+  function settingReferenceSetName(referenceSetId) {
+    getReferenceSet(referenceSetId).then((data) => {
+      setReferenceSetName(data.results.name);
+    }).catch(() => {
+      setReferenceSetName('Not Available');
+    });
+  }
 
   useEffect(() => {
     // Hide BeaconTable when datasetId changes
     setDisplayBeaconTable(false);
+
+    // Check for variant and reference name set on datasetId changes
+    trackPromise(
+      searchVariantSets(datasetId).then((data) => {
+        setVariantSets(data.results.total);
+        settingReferenceSetName(data.results.variantSets[0].referenceSetId);
+      }).catch(() => {
+        setVariantSets('Not Available');
+        setReferenceSetName('Not Available');
+        // notify(
+        //   notifyEl,
+        //   'No variants or reference set names were found.',
+        //   'warning',
+        // );
+      }),
+    );
   }, [datasetId]);
 
   /*
@@ -140,7 +175,56 @@ function BeaconSearch() {
     <>
       <div className="content">
         <NotificationAlert ref={notifyEl} />
-
+        <Row className="justify-content-md-center">
+          <Col lg="4" md="4" sm="4">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-paper text-danger" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">VariantSets/VCFs</p>
+                      {promiseInProgress === true ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <CardTitle tag="p">{variantSet}</CardTitle>
+                      )}
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col lg="4" md="4" sm="4">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-map-big text-primary" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">ReferenceSet</p>
+                      {promiseInProgress === true ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <CardTitle tag="p">{referenceSetName}</CardTitle>
+                      )}
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
         <Form onSubmit={formHandler} style={{ justifyContent: 'center' }}>
 
           <Row style={{ justifyContent: 'center' }}>
