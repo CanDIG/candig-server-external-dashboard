@@ -167,19 +167,19 @@ function BeaconSearch() {
     <>
       <div className="content">
         <NotificationAlert ref={notifyEl} />
-        <Row>
-          <Col lg="6" md="6" sm="6">
+        <Row className="justify-content-md-center">
+          <Col lg="4" md="4" sm="4">
             <Card className="card-stats">
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-world-2 text-danger" />
+                      <i className="nc-icon nc-paper text-danger" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
                     <div className="numbers">
-                      <p className="card-category">VariantSets</p>
+                      <p className="card-category">VariantSets/VCFs</p>
                       {promiseInProgress === true ? (
                         <LoadingIndicator />
                       ) : (
@@ -192,13 +192,13 @@ function BeaconSearch() {
               </CardBody>
             </Card>
           </Col>
-          <Col lg="6" md="6" sm="6">
+          <Col lg="4" md="4" sm="4">
             <Card className="card-stats">
               <CardBody>
                 <Row>
                   <Col md="4" xs="5">
                     <div className="icon-big text-center icon-warning">
-                      <i className="nc-icon nc-single-02 text-primary" />
+                      <i className="nc-icon nc-map-big text-primary" />
                     </div>
                   </Col>
                   <Col md="8" xs="7">
