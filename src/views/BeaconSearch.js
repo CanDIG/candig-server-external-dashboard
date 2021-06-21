@@ -11,6 +11,7 @@ import BeaconTable from '../components/Tables/BeaconTable';
 import { notify, NotificationAlert } from '../utils/alert';
 import LoadingIndicator, {
   usePromiseTracker,
+  trackPromise,
 } from '../components/LoadingIndicator/LoadingIndicator';
 
 // Consts
@@ -26,45 +27,43 @@ function BeaconSearch() {
   const [loadingIndicator, setLoadingIndicator] = useState('');
   const [displayBeaconTable, setDisplayBeaconTable] = useState(false);
   const [variantSet, setVariantSets] = useState('');
-  const [referenceSetId, setReferenceSetId] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
   const requestModeFunc = { range: searchBeaconRange, freq: searchBeaconFreq };
   const notifyEl = useRef(null);
   const { promiseInProgress } = usePromiseTracker();
 
+  /*
+  Fetches reference set Name and sets referenceSetName
+  * @param {string}... referenceSetId
+  */
+  function settingReferenceSetName(referenceSetId) {
+    searchReferenceSets(referenceSetId).then((data) => {
+      setReferenceSetName(data.results.referenceSets[0].name);
+    }).catch(() => {
+      setReferenceSetName('Not Available');
+    });
+  }
+
   useEffect(() => {
     // Hide BeaconTable when datasetId changes
     setDisplayBeaconTable(false);
-  
-    console.log(datasetId);
-    searchVariantSets(datasetId).then((data) => {
-      setVariantSets(data.results.total);
-      setReferenceSetId(data.results.variantSets[0].referenceSetId);
-      console.log(data.results.variantSets[0].referenceSetId);
-    }).catch(() => {
-      setVariantSets("Not Available");
-      setReferenceSetId("Not Available");
-      notify(
-        notifyEl,
-        'No variants sets were found.',
-        'warning'
-      );
-    });
-  }, [datasetId]);
 
-  useEffect(() => { 
-    searchReferenceSets(referenceSetId).then((data) => {
-      setReferenceSetName(data.results.referenceSets[0].name);
-      console.log(data.results.referenceSets[0].name);
-    }).catch(() => {
-      setReferenceSetName("Not Available");
-      notify(
-        notifyEl,
-        'No reference sets were found.',
-        'warning'
-      );
-      })
-  }, [referenceSetId]);
+    // Check for variant and reference name set on datasetId changes
+    trackPromise(
+      searchVariantSets(datasetId).then((data) => {
+        setVariantSets(data.results.total);
+        settingReferenceSetName(data.results.variantSets[0].referenceSetId);
+      }).catch(() => {
+        setVariantSets('Not Available');
+        setReferenceSetName('Not Available');
+        notify(
+          notifyEl,
+          'No variants or reference set names were found.',
+          'warning',
+        );
+      }),
+    );
+  }, [datasetId]);
 
   /*
   Build the dropdown for referenceName
@@ -163,8 +162,6 @@ function BeaconSearch() {
         );
       });
   };
-
-
 
   return (
     <>
