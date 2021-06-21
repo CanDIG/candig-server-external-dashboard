@@ -157,6 +157,44 @@ function searchBeaconFreq(datasetId, start, end, referenceName) {
   });
 }
 
+/*
+Fetch variant set for a specific Dataset Id; and returns a promise
+ * @param {string}... Dataset ID
+*/
+function searchVariantSets(datasetId) {
+  return fetch(`${BASE_URL}/variantsets/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      datasetId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
+/*
+Fetch reference set for a specific referenceSetId; and returns a promise
+ * @param {string}... Dataset ID
+*/
+function searchReferenceSets(referenceSetsId) {
+  return fetch(`${BASE_URL}/referencesets/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      referenceSetsId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
 export {
   fetchPatients,
   fetchDatasets,
@@ -165,4 +203,6 @@ export {
   searchVariant,
   searchBeaconRange,
   searchBeaconFreq,
+  searchVariantSets,
+  searchReferenceSets,
 };
