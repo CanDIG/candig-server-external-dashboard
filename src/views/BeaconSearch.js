@@ -180,7 +180,7 @@ function BeaconSearch() {
             </FormGroup>
 
             {/* Use <a> instead of Button to be Safari-compatible */}
-            <a href="#" tabindex="0" id="PopoverFocus" > {/* eslint-disable-line */}
+            <a href="#" tabIndex="0" id="PopoverFocus" > {/* eslint-disable-line */}
               <Button color="info" style={{ marginRight: '10px', marginTop: '30px' }}>HELP</Button>
             </a>
             <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
