@@ -4,7 +4,7 @@ import {
   Card, CardBody, CardTitle, Row, Col, Button, Form, FormText, FormGroup, Label, Input, UncontrolledPopover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import {
-  searchBeaconFreq, searchBeaconRange, searchVariantSets, searchReferenceSets,
+  searchBeaconFreq, searchBeaconRange, searchVariantSets, getReferenceSet,
 } from '../api/api';
 import BeaconTable from '../components/Tables/BeaconTable';
 
@@ -37,7 +37,7 @@ function BeaconSearch() {
   * @param {string}... referenceSetId
   */
   function settingReferenceSetName(referenceSetId) {
-    searchReferenceSets(referenceSetId).then((data) => {
+    getReferenceSet(referenceSetId).then((data) => {
       setReferenceSetName(data.results.name);
     }).catch(() => {
       setReferenceSetName('Not Available');

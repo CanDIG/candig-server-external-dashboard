@@ -180,7 +180,7 @@ function searchVariantSets(datasetId) {
 Fetch reference set for a specific referenceSetId; and returns a promise
  * @param {string}... Reference set ID
 */
-function searchReferenceSets(referenceSetId) {
+function getReferenceSet(referenceSetId) {
   return fetch(`${BASE_URL}/referencesets/${referenceSetId}`, {
     method: 'get',
     headers: { 'Content-Type': 'application/json' },
@@ -201,5 +201,5 @@ export {
   searchBeaconRange,
   searchBeaconFreq,
   searchVariantSets,
-  searchReferenceSets,
+  getReferenceSet,
 };
