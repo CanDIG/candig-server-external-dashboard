@@ -180,13 +180,10 @@ function searchVariantSets(datasetId) {
 Fetch reference set for a specific referenceSetId; and returns a promise
  * @param {string}... Reference set ID
 */
-function searchReferenceSets(referenceSetsId) {
-  return fetch(`${BASE_URL}/referencesets/search`, {
-    method: 'post',
+function searchReferenceSets(referenceSetId) {
+  return fetch(`${BASE_URL}/referencesets/${referenceSetId}`, {
+    method: 'get',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      referenceSetsId,
-    }),
   }).then((response) => {
     if (response.ok) {
       return response.json();

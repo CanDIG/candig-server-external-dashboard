@@ -38,7 +38,7 @@ function BeaconSearch() {
   */
   function settingReferenceSetName(referenceSetId) {
     searchReferenceSets(referenceSetId).then((data) => {
-      setReferenceSetName(data.results.referenceSets[0].name);
+      setReferenceSetName(data.results.name);
     }).catch(() => {
       setReferenceSetName('Not Available');
     });
@@ -56,11 +56,11 @@ function BeaconSearch() {
       }).catch(() => {
         setVariantSets('Not Available');
         setReferenceSetName('Not Available');
-        notify(
-          notifyEl,
-          'No variants or reference set names were found.',
-          'warning',
-        );
+        // notify(
+        //   notifyEl,
+        //   'No variants or reference set names were found.',
+        //   'warning',
+        // );
       }),
     );
   }, [datasetId]);
