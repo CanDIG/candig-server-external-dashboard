@@ -178,7 +178,7 @@ function searchVariantSets(datasetId) {
 
 /*
 Fetch reference set for a specific referenceSetId; and returns a promise
- * @param {string}... Dataset ID
+ * @param {string}... Reference set ID
 */
 function searchReferenceSets(referenceSetsId) {
   return fetch(`${BASE_URL}/referencesets/search`, {
