@@ -52,6 +52,20 @@ function BeaconSearch() {
   }
 
   /*
+  Trigger a notification
+  * @param {string}... message
+  * @param {string}... type
+  * Trigger a notification message of selected type
+  */
+  function notificationHandler(message, type) {
+    notify(
+      notifyEl,
+      message,
+      type,
+    );
+  }
+
+  /*
   Stringify the Allele Freq object to be displayed in ag-grid table.
   * @param {array}... records
   * Return a list of records with stringified Allele Freq object
@@ -65,18 +79,20 @@ function BeaconSearch() {
   }
 
   /*
-  Hide table and throw warning if the search range is > 5000.
+  Hide table and throw warning if the search range is > 5000, or if start > end.
   * @param {string}... start
   * @param {string}... end
   * Return false if the range is > 5000, true otherwise.
   */
   function validateForm(start, end) {
     if ((Number(end) - Number(start)) > 5000) {
-      notify(
-        notifyEl,
-        'The maximum range you could search for is 5000 bps.',
-        'warning',
-      );
+      notificationHandler('The maximum range you could search for is 5000 bps.', 'warning');
+      setDisplayBeaconTable(false);
+      return false;
+    }
+
+    if (Number(end) < Number(start) + 1) {
+      notificationHandler('The minimum value of End is Start + 1.', 'warning');
       setDisplayBeaconTable(false);
       return false;
     }
@@ -110,21 +126,13 @@ function BeaconSearch() {
           setDisplayBeaconTable(true);
         } else {
           setDisplayBeaconTable(false);
-          notify(
-            notifyEl,
-            'No variants were found.',
-            'warning',
-          );
+          notificationHandler('No variants were found.', 'warning');
         }
       }).catch(() => {
         setDisplayBeaconTable(false);
         setLoadingIndicator('');
         setRowData([]);
-        notify(
-          notifyEl,
-          'No variants were found.',
-          'warning',
-        );
+        notificationHandler('No variants were found.', 'warning');
       });
   };
 
@@ -146,9 +154,9 @@ function BeaconSearch() {
 
             <FormGroup>
               <Label for="end">End</Label>
-              <Input required type="number" id="end" />
+              <Input required type="number" id="end" min="0" />
               <FormText className="text-muted">
-                Max search range is 5000.
+                Min value is start + 1.
               </FormText>
             </FormGroup>
 
@@ -171,9 +179,10 @@ function BeaconSearch() {
               </Input>
             </FormGroup>
 
-            <Button color="info" id="PopoverFocus" type="Button" style={{ marginRight: '10px', marginTop: '30px' }}>
-              HELP
-            </Button>
+            {/* Use <a> instead of Button to be Safari-compatible */}
+            <a href="#" tabindex="0" id="PopoverFocus" > {/* eslint-disable-line */}
+              <Button color="info" style={{ marginRight: '10px', marginTop: '30px' }}>HELP</Button>
+            </a>
             <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
               <PopoverHeader>Beacon Search</PopoverHeader>
               <PopoverBody>
@@ -192,6 +201,7 @@ function BeaconSearch() {
                   returns allele frequency info of variants, if available.
                 </p>
                 <p>Each search is limited to 5,000 bps.</p>
+                <p>Each VariantSet is linked to a VCF file.</p>
 
               </PopoverBody>
             </UncontrolledPopover>
