@@ -29,6 +29,10 @@ function Dashboard(){
   function getEnrollmentsCounters(datasetId, table, fields){
     getCounts(datasetId, table, fields)
       .then((data) => {
+        setPatients(0);
+        setHospitals(0);
+        setProvinces(0);
+
         let enrol_obj = data.results.enrollments[0];
         if ('datasetId' in enrol_obj) {
           setPatients(enrol_obj.datasetId[datasetId]);
