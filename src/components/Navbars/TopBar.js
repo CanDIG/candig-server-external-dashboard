@@ -133,24 +133,18 @@ class Header extends React.Component {
                 className="navbar-toggler"
                 onClick={() => this.openSidebar()}
               >
-                <span className="navbar-toggler-bar bar1" />
-                <span className="navbar-toggler-bar bar2" />
-                <span className="navbar-toggler-bar bar3" />
+              
               </button>
             </div>
             <NavbarBrand href="/">{this.getBrand()}</NavbarBrand>
           </div>
-          <NavbarToggler onClick={this.toggle}>
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-            <span className="navbar-toggler-bar navbar-kebab" />
-          </NavbarToggler>
+          <NavbarToggler onClick={this.toggle}/>
           <Collapse
             isOpen={this.state.isOpen}
             navbar
             className="justify-content-end"
           >
-            <Nav navbar>
+            <Nav>
               {this.props.datasetVisible === true ? 
                 (<DatasetsDropdown updateState={this.props.updateState} />) :
                 <></> }
