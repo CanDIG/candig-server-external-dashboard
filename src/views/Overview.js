@@ -29,21 +29,28 @@ function Dashboard(){
   function getEnrollmentsCounters(datasetId, table, fields){
     getCounts(datasetId, table, fields)
       .then((data) => {
-        setPatients(0);
-        setHospitals(0);
-        setProvinces(0);
 
         let enrol_obj = data.results.enrollments[0];
+
         if ('datasetId' in enrol_obj) {
           setPatients(enrol_obj.datasetId[datasetId]);
+        }
+        else {
+          setPatients('Not Available');
         }
 
         if ('treatingCentreName' in enrol_obj) {
           setHospitals(Object.keys(enrol_obj.treatingCentreName).length);
         }
+        else {
+          setHospitals('Not Available');
+        }
 
         if ('treatingCentreProvince' in enrol_obj) {
           setProvinces(Object.keys(enrol_obj.treatingCentreProvince).length);
+        }
+        else {
+          setProvinces('Not Available');
         }
 
       })
