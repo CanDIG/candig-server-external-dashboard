@@ -256,8 +256,8 @@ function BeaconSearch() {
               <Input required type="select" id="requestMode">
                 {
                     [
-                      <option key="range" value="range">Range Search</option>,
                       <option key="freq" value="freq">Allele Frequency Search</option>,
+                      <option key="range" value="range">Range Search</option>,
                     ]
                   }
               </Input>
