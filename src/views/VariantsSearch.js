@@ -1,14 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  Button, Form, FormGroup, Label, Input, Row, UncontrolledAlert,
+  Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, Row, Col,
 } from 'reactstrap';
 
 import { useSelector } from 'react-redux';
 
 import VariantsTable from '../components/Tables/VariantsTable';
-import { searchVariant } from '../api/api';
+import { searchVariant, searchVariantSets, getReferenceSet } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
+import LoadingIndicator, {
+  usePromiseTracker,
+  trackPromise,
+} from '../components/LoadingIndicator/LoadingIndicator';
 
 import '../assets/css/VariantsSearch.css';
 
@@ -18,6 +22,39 @@ function VariantsSearch() {
   const [rowData, setRowData] = useState([]);
   const [displayVariantsTable, setDisplayVariantsTable] = useState(false);
   const notifyEl = useRef(null);
+  const [variantSet, setVariantSets] = useState('');
+  const [referenceSetName, setReferenceSetName] = useState('');
+  const { promiseInProgress } = usePromiseTracker();
+
+  /*
+  Fetches reference set Name and sets referenceSetName
+  * @param {string}... referenceSetId
+  */
+  function settingReferenceSetName(referenceSetId) {
+    getReferenceSet(referenceSetId).then((data) => {
+      setReferenceSetName(data.results.name);
+    }).catch(() => {
+      setReferenceSetName('Not Available');
+    });
+  }
+
+  useEffect(() => {
+    // Check for variant and reference name set on datasetId changes
+    trackPromise(
+      searchVariantSets(datasetId).then((data) => {
+        setVariantSets(data.results.total);
+        settingReferenceSetName(data.results.variantSets[0].referenceSetId);
+      }).catch(() => {
+        setVariantSets('Not Available');
+        setReferenceSetName('Not Available');
+        // notify(
+        //   notifyEl,
+        //   'No variants or reference set names were found.',
+        //   'warning',
+        // );
+      }),
+    );
+  }, [datasetId]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
@@ -42,25 +79,56 @@ function VariantsSearch() {
     <>
       <div className="content">
         <NotificationAlert ref={notifyEl} />
-
-        <Row>
-          <UncontrolledAlert color="info" className="ml-auto mr-auto alert-with-icon" fade={false}>
-            <span
-              data-notify="icon"
-              className="nc-icon nc-bell-55"
-            />
-
-            <b>
-              <p> Reminders: </p>
-              <p> You will need to supply values for all three fields. </p>
-              <p>
-                If variants exist for your search request, you may click on any row of the variants
-                table to search for a list of individuals associated with them.
-              </p>
-            </b>
-          </UncontrolledAlert>
+        <Row className="justify-content-md-center">
+          <Col lg="4" md="4" sm="4">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-paper text-danger" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">VariantSets/VCFs</p>
+                      {promiseInProgress === true ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <CardTitle tag="p">{variantSet}</CardTitle>
+                      )}
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col lg="4" md="4" sm="4">
+            <Card className="card-stats">
+              <CardBody>
+                <Row>
+                  <Col md="4" xs="5">
+                    <div className="icon-big text-center icon-warning">
+                      <i className="nc-icon nc-map-big text-primary" />
+                    </div>
+                  </Col>
+                  <Col md="8" xs="7">
+                    <div className="numbers">
+                      <p className="card-category">ReferenceSet</p>
+                      {promiseInProgress === true ? (
+                        <LoadingIndicator />
+                      ) : (
+                        <CardTitle tag="p">{referenceSetName}</CardTitle>
+                      )}
+                      <p />
+                    </div>
+                  </Col>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
         </Row>
-
         <Form inline onSubmit={formHandler} style={{ justifyContent: 'center' }}>
           <FormGroup>
             <Label for="start">Start</Label>
