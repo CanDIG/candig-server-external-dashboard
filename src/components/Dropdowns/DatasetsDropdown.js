@@ -103,7 +103,7 @@ function DatasetsDropdown({ updateState }) {
         paddingRight: '10px',
       }}
     >
-      <DropdownToggle caret nav style={{ color: 'white', fontSize: 12 }}>
+      <DropdownToggle caret nav style={{ color: 'white' }}>
         {selectedDataset}
       </DropdownToggle>
       <DropdownMenu right>{datasetList}</DropdownMenu>
