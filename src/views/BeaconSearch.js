@@ -245,7 +245,7 @@ function BeaconSearch() {
             </FormGroup>
 
             <FormGroup>
-              <Label for="referenceName">Reference Name</Label>
+              <Label for="referenceName">Chromosome</Label>
               <Input required type="select" id="referenceName">{ refNameSelectBuilder() }</Input>
             </FormGroup>
           </Row>
