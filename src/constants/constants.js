@@ -81,7 +81,15 @@ export const BeaconFreqTableColumnDefs = [
   { headerName: 'Start', field: 'start' },
   { headerName: 'End', field: 'end' },
   { headerName: 'Reference Allele', field: 'referenceBases' },
-  { headerName: 'Alternate Alleles', field: 'alternateBases' },
+  {
+    headerName: 'Alternate Alleles',
+    field: 'alternateBases',
+    cellRenderer(param) {
+      let alternateBaseRow = '';
+      (param.data.alternateBases).forEach((alternateBase) => { alternateBaseRow += `${alternateBase}<br/>`; });
+      return alternateBaseRow;
+    },
+  },
   {
     headerName: 'Allele Frequency',
     field: 'AF',
