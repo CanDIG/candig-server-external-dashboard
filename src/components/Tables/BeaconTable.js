@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
+import { Button } from 'reactstrap';
 import { NotificationAlert } from '../../utils/alert';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
@@ -31,9 +32,22 @@ function BeaconTable({ columnDefs, rowData, datasetId }) {
     pagination: true,
   };
 
+  const params = {
+    columnSeparator: '\t',
+    fileName: 'export.tsv',
+    suppressQuotes: true,
+  };
+
+  function downloadTSV() {
+    gridOptions.api.exportDataAsCsv(params);
+  }
+
   return (
     <>
       <NotificationAlert ref={notifyEl} />
+      <div className="d-flex flex-row-reverse">
+        <Button style={{ marginTop: '30px' }} onClick={downloadTSV}>Download</Button>
+      </div>
       <div className="ag-theme-alpine">
         <AgGridReact
           columnDefs={columnDefs}
