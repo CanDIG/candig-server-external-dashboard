@@ -81,8 +81,24 @@ export const BeaconFreqTableColumnDefs = [
   { headerName: 'Start', field: 'start' },
   { headerName: 'End', field: 'end' },
   { headerName: 'Reference Allele', field: 'referenceBases' },
-  { headerName: 'Alternate Alleles', field: 'alternateBases' },
-  { headerName: 'Allele Frequency', field: 'AF' },
+  {
+    headerName: 'Alternate Alleles',
+    field: 'alternateBases',
+    cellRenderer(param) {
+      let alternateBaseRow = '';
+      (param.data.alternateBases).forEach((alternateBase) => { alternateBaseRow += `${alternateBase}<br/>`; });
+      return alternateBaseRow;
+    },
+  },
+  {
+    headerName: 'Allele Frequency',
+    field: 'AF',
+    cellRenderer(param) {
+      let alleleRow = '';
+      ((param.data.AF).substr(1, param.data.AF.length - 2)).split(',').forEach((allele) => { alleleRow += `${allele}<br/>`; });
+      return alleleRow;
+    },
+  },
 ];
 
 export const BeaconRangeTableColumnDefs = [
