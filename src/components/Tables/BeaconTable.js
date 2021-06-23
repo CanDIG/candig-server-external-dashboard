@@ -30,7 +30,7 @@ function BeaconTable({ columnDefs, rowData, datasetId }) {
     paginationAutoPageSize: true,
     pagination: true,
   };
-  
+
   return (
     <>
       <NotificationAlert ref={notifyEl} />
