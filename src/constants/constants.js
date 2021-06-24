@@ -77,9 +77,14 @@ export const ListOfReferenceNames = [
 ];
 
 export const BeaconFreqTableColumnDefs = [
-  { headerName: 'Reference Name', field: 'referenceName' },
-  { headerName: 'Start', field: 'start' },
-  { headerName: 'End', field: 'end' },
+  { headerName: 'Reference Chromosome', field: 'referenceName' },
+  {
+    headerName: 'Position',
+    field: 'start',
+    cellRenderer(param) {
+      return parseInt(param.data.start, 10) + 1;
+    },
+  },
   { headerName: 'Reference Allele', field: 'referenceBases' },
   {
     headerName: 'Alternate Alleles',
@@ -102,9 +107,14 @@ export const BeaconFreqTableColumnDefs = [
 ];
 
 export const BeaconRangeTableColumnDefs = [
-  { headerName: 'Reference Name', field: 'referenceName' },
-  { headerName: 'Start', field: 'start' },
-  { headerName: 'End', field: 'end' },
+  { headerName: 'Reference Chromosome', field: 'referenceName' },
+  {
+    headerName: 'Position',
+    field: 'start',
+    cellRenderer(param) {
+      return parseInt(param.data.start, 10) + 1;
+    },
+  },
   { headerName: 'Reference Allele', field: 'referenceBases' },
   { headerName: 'Exists', field: 'exists' },
 ];
