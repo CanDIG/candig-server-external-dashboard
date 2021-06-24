@@ -77,7 +77,7 @@ export const ListOfReferenceNames = [
 ];
 
 export const BeaconFreqTableColumnDefs = [
-  { headerName: 'Reference Chromosome', field: 'referenceName' },
+  { headerName: 'Chromosome', field: 'referenceName' },
   {
     headerName: 'Position',
     field: 'start',
@@ -107,7 +107,7 @@ export const BeaconFreqTableColumnDefs = [
 ];
 
 export const BeaconRangeTableColumnDefs = [
-  { headerName: 'Reference Chromosome', field: 'referenceName' },
+  { headerName: 'Chromosome', field: 'referenceName' },
   {
     headerName: 'Position',
     field: 'start',
