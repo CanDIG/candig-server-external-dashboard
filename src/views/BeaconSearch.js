@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import {
-  Card, CardBody, CardTitle, Row, Col, Button, Form, FormText, FormGroup, Label, Input, UncontrolledPopover, PopoverHeader, PopoverBody,
+  Row, Button, Form, FormText, FormGroup, Label, Input, UncontrolledPopover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import {
   searchBeaconFreq, searchBeaconRange, searchVariantSets, getReferenceSet,
@@ -9,10 +9,7 @@ import {
 import BeaconTable from '../components/Tables/BeaconTable';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
-  usePromiseTracker,
-  trackPromise,
-} from '../components/LoadingIndicator/LoadingIndicator';
+import { trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 // Consts
 import { BeaconFreqTableColumnDefs, BeaconRangeTableColumnDefs, ListOfReferenceNames } from '../constants/constants';
@@ -26,11 +23,10 @@ function BeaconSearch() {
   const [activeColumnDefs, setActiveColumnDefs] = useState([]);
   const [loadingIndicator, setLoadingIndicator] = useState('');
   const [displayBeaconTable, setDisplayBeaconTable] = useState(false);
-  const [variantSet, setVariantSets] = useState('');
+  // const [variantSet, setVariantSets] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
   const requestModeFunc = { range: searchBeaconRange, freq: searchBeaconFreq };
   const notifyEl = useRef(null);
-  const { promiseInProgress } = usePromiseTracker();
 
   /*
   Fetches reference set Name and sets referenceSetName
@@ -51,10 +47,10 @@ function BeaconSearch() {
     // Check for variant and reference name set on datasetId changes
     trackPromise(
       searchVariantSets(datasetId).then((data) => {
-        setVariantSets(data.results.total);
+        // setVariantSets(data.results.total);
         settingReferenceSetName(data.results.variantSets[0].referenceSetId);
       }).catch(() => {
-        setVariantSets('Not Available');
+        // setVariantSets('Not Available');
         setReferenceSetName('Not Available');
         // notify(
         //   notifyEl,
@@ -175,7 +171,7 @@ function BeaconSearch() {
     <>
       <div className="content">
         <NotificationAlert ref={notifyEl} />
-        <Row className="justify-content-md-center">
+        {/* <Row className="justify-content-md-center">
           <Col lg="4" md="4" sm="4">
             <Card className="card-stats">
               <CardBody>
@@ -224,10 +220,16 @@ function BeaconSearch() {
               </CardBody>
             </Card>
           </Col>
-        </Row>
-        <Form onSubmit={formHandler} style={{ justifyContent: 'center' }}>
-
+        </Row> */}
+        <Form onSubmit={formHandler} className="justify-content-center">
           <Row style={{ justifyContent: 'center' }}>
+            <FormGroup>
+              <Label>Reference Genome</Label>
+              <Input required type="select" disabled>
+                <option>{referenceSetName}</option>
+              </Input>
+            </FormGroup>
+
             <FormGroup>
               <Label for="start" style={{ float: 'left' }}>Start</Label>
               <Input required type="number" id="start" min="0" />
