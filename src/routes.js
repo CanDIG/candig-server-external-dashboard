@@ -24,6 +24,7 @@ import PatientsOverview from './views/PatientsOverview';
 import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
 import BeaconSearch from './views/BeaconSearch';
+import Help from './views/Help';
 
 
 const routes = [
@@ -74,6 +75,13 @@ const routes = [
     name: 'Clinical Metadata',
     icon: 'nc-icon nc-single-copy-04',
     component: TableList,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/help',
+    name: 'Help',
+    icon: 'nc-icon nc-alert-circle-i',
+    component: Help,
     layout: '/v2/dashboard',
   },
 ];
