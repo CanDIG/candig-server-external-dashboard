@@ -4,6 +4,7 @@
  */
 const tableSchema = {
   patients: [
+    'patientId',
     'dateOfBirth',
     'gender',
     'ethnicity',
@@ -52,6 +53,7 @@ const tableSchema = {
     'unexpectedOrUnusualToxicityDuringTreatment',
   ],
   samples: [
+    'sampleId',
     'collectionDate',
     'collectionHospital',
     'sampleType',

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
 import BASE_URL from '../constants/constants';
@@ -32,7 +32,9 @@ function CreateColumns(columnNames, setColumnState, columnSchema) {
   setColumnState(columnList);
 }
 
-function TableApp({ datasetId }) {
+function TableApp() {
+  const events = useSelector((state) => state);
+  const { datasetId } = events.setData.update;
   const [selectedMetadata, setSelectedMetadata] = useState('patients');
   const [data, setData] = useState([]);
   const [columns, setColumns] = useState([]);
@@ -110,9 +112,6 @@ function TableApp({ datasetId }) {
   );
 }
 
-TableApp.propTypes = {
-  datasetId: PropTypes.string,
-};
 TableApp.defaultProps = {
   datasetId: 'patients',
 };
