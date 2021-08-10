@@ -1,5 +1,5 @@
 /*404 Error Page*/
-.text-navy {
+.text-candig-blue {
     color: #007AB4;
 }
 .font-gothic {
@@ -8,7 +8,7 @@
 .textShadow-grey {
     text-shadow: 1px 3px #4f4f4f63;
 }
-.navy-button, .outline-navy-button:hover, .outline-navy-button:hover a  {
+.candig-blue-button, .outline-candig-blue-button:hover, .outline-candig-blue-button:hover a  {
     background: #007AB4;
     border: 1px solid #007AB4;
     box-sizing: border-box;
@@ -18,7 +18,7 @@
     text-decoration: none;
     width: 7em;
 }
-.outline-navy-button, .navy-button:hover, .navy-button:hover a, .navy-button:active a  {
+.outline-candig-blue-button, .candig-blue-button:hover, .candig-blue-button:hover a, .candig-blue-button:active a  {
     background: white;
     border: 1px solid #007AB4;
     box-sizing: border-box;
