@@ -1,0 +1,30 @@
+/*404 Error Page*/
+.text-navy {
+    color: #007AB4;
+}
+.font-gothic {
+    font-family: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;
+}
+.textShadow-grey {
+    text-shadow: 1px 3px #4f4f4f63;
+}
+.navy-button, .outline-navy-button:hover, .outline-navy-button:hover a  {
+    background: #007AB4;
+    border: 1px solid #007AB4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    color: white;
+    text-decoration: none;
+    width: 7em;
+}
+.outline-navy-button, .navy-button:hover, .navy-button:hover a, .navy-button:active a  {
+    background: white;
+    border: 1px solid #007AB4;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 4px;
+    color:#007AB4;
+    text-decoration: none;
+    width: 7em;
+}
