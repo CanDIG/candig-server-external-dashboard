@@ -25,6 +25,7 @@ import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
+import ErrorPageNotFound from 'views/ErrorPageNotFound';
 
 
 const routes = [
@@ -82,6 +83,13 @@ const routes = [
     name: 'Help',
     icon: 'nc-icon nc-alert-circle-i',
     component: Help,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '*',
+    name: '', // Removed to not show in sidebar
+    icon: '', // Removed to not show in sidebar
+    component: ErrorPageNotFound,
     layout: '/v2/dashboard',
   },
 ];
