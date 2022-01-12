@@ -12,14 +12,49 @@ import '../../assets/css/VariantsSearch.css';
 function VariantsTable({ rowData, datasetId }) {
   const notifyEl = useRef(null);
 
-  const columnDefs = [
-    { headerName: 'Reference Name', field: 'referenceName' },
-    { headerName: 'Start', field: 'start' },
-    { headerName: 'End', field: 'end' },
-    { headerName: 'Reference Bases', field: 'referenceBases' },
-    { headerName: 'Alternate Bases', field: 'alternateBases' },
-  ];
   let gridOptions = {};
+
+  function getColumnDefs() {
+    const columnDefs = [
+      { headerName: 'Chromosome', field: 'referenceName' },
+      { headerName: 'Start', field: 'start' },
+      { headerName: 'End', field: 'end' },
+      { headerName: 'Reference Bases', field: 'referenceBases' },
+      { headerName: 'Alternate Bases', field: 'alternateBases' },
+    ];
+
+
+    if(rowData[0] !== undefined) { // First population is empty
+      const attr = rowData[0].attributes.attr;
+
+        for(var key in attr){
+          columnDefs.push({
+            headerName: key,
+             valueFormatter: params => {
+              try {
+                const attributeValue = params.value.values[0].stringValue ? params.value.values[0].stringValue : (params.value.values[0].doubleValue ? params.value.values[0].doubleValue : params.value.values[0].int32Value);
+                if(params.colDef.headerName === 'SNVSB'){
+                  return params.value.values[0].doubleValue;
+                }else{
+                  return attributeValue;
+                }
+              } catch (error) {
+                // console.log(error);
+                /*
+                * This is to handle the case where the attribute value is not available in the select row
+                */
+              }
+            }
+            ,
+            field: 'attributes.attr.' + key, // Allows us to work with key without it retroactively changing to the last key
+            editable: true,
+          });
+      }
+    }
+
+    return columnDefs;
+  }
+
 
   function onSelectionChanged() {
     const selectedRows = gridOptions.api.getSelectedRows();
@@ -73,7 +108,7 @@ function VariantsTable({ rowData, datasetId }) {
       resizable: true,
       filter: true,
       flex: 1,
-      minWidth: 20,
+      minWidth: 150,
       minHeight: 300,
     },
     onSelectionChanged,
@@ -84,6 +119,7 @@ function VariantsTable({ rowData, datasetId }) {
     enableRangeSelection: true,
     paginationAutoPageSize: true,
     pagination: true,
+    valueCache: true,
     frameworkComponents: {
       VariantsTableButton,
     },
@@ -94,7 +130,7 @@ function VariantsTable({ rowData, datasetId }) {
       <NotificationAlert ref={notifyEl} />
       <div className="ag-theme-alpine">
         <AgGridReact
-          columnDefs={columnDefs}
+          columnDefs={getColumnDefs()}
           rowData={rowData}
           gridOptions={gridOptions}
           context={{ datasetId }}

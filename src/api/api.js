@@ -108,6 +108,31 @@ function searchVariant(datasetId, start, end, referenceName) {
 }
 
 /*
+Fetch variant for a specific Dataset Id; start; and reference name; and returns a promise
+ * @param {string}... Dataset ID
+ * @param {number}... Start
+ * @param {number}... End
+ * @param {string}... Reference name
+*/
+function searchVariantByVariantSetIds(start, end, referenceName, variantSetIds) {
+  return fetch(`${BASE_URL}/variants/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      start,
+      end,
+      referenceName,
+      variantSetIds,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
+/*
 Fetch variants and returns a promise
  * @param {string}... datasetId
  * @param {string}... Start
@@ -202,4 +227,5 @@ export {
   searchBeaconFreq,
   searchVariantSets,
   getReferenceSet,
+  searchVariantByVariantSetIds
 };
