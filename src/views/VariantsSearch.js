@@ -66,7 +66,7 @@ function VariantsSearch() {
         // );
       }),
     );
-  }, [datasetId]);
+  }, [datasetId, options]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
