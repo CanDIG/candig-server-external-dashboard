@@ -4,10 +4,12 @@ import {
 } from 'reactstrap';
 
 import { useSelector } from 'react-redux';
-import { MultiSelect } from "react-multi-select-component";
+import { MultiSelect } from 'react-multi-select-component';
 
 import VariantsTable from '../components/Tables/VariantsTable';
-import { searchVariant, searchVariantSets, searchVariantByVariantSetIds, getReferenceSet } from '../api/api';
+import {
+  searchVariant, searchVariantSets, searchVariantByVariantSetIds, getReferenceSet,
+} from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
 import LoadingIndicator, {
@@ -15,7 +17,7 @@ import LoadingIndicator, {
   trackPromise,
 } from '../components/LoadingIndicator/LoadingIndicator';
 
-import '../assets/css/VariantsSearch.css'; 
+import '../assets/css/VariantsSearch.css';
 
 function VariantsSearch() {
   const events = useSelector((state) => state);
@@ -47,10 +49,9 @@ function VariantsSearch() {
     trackPromise(
       searchVariantSets(datasetId).then((data) => {
         setVariantSets(data.results.total);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         setSelected([]);
-        data.results.variantSets.map((variantSet) => {
-          options.push({ label: variantSet.name, value: variantSet.id});
+        data.results.variantSets.forEach((variant) => {
+          options.push({ label: variant.name, value: variant.id });
         });
         setOptions(options);
         setSelected(options);
@@ -70,24 +71,24 @@ function VariantsSearch() {
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
 
-    if(selected) {
-      selected.forEach((variantSetId) => {
-        variantSetIds.push(variantSetId.value);
-      });
-      // searchVariant(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds) query /variants/search
-      searchVariantByVariantSetIds(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds)
-        .then((data) => {
-          setDisplayVariantsTable(true);
-          setRowData(data.results.variants);
-        }).catch(() => {
-          setRowData([]);
-          setDisplayVariantsTable(false);
-//           notify(
-//             notifyEl,
-//             'No variants were found.',
-//             'warning',
-//           );
-        });
+    if (selected) {
+      selected.forEach((variantSetId) => {
+        variantSetIds.push(variantSetId.value);
+      });
+      // searchVariant(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds) query /variants/search
+      searchVariantByVariantSetIds(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds)
+        .then((data) => {
+          setDisplayVariantsTable(true);
+          setRowData(data.results.variants);
+        }).catch(() => {
+          setRowData([]);
+          setDisplayVariantsTable(false);
+          //           notify(
+          //             notifyEl,
+          //             'No variants were found.',
+          //             'warning',
+          //           );
+        });
       setVariantSetIds([]);
     } else {
       searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.chromosome.value).then((data) => {
@@ -159,7 +160,8 @@ function VariantsSearch() {
           </Col>
         </Row>
         <Form inline onSubmit={formHandler} style={{ justifyContent: 'center' }}>
-          { options.length > 0 && 
+          { options.length > 0
+            && (
             <FormGroup>
               <Label for="VariantSetIds">Variant Set</Label>
               <MultiSelect // Width set in CSS
@@ -169,7 +171,7 @@ function VariantsSearch() {
                 labelledBy="Select"
               />
             </FormGroup>
-          }
+            )}
           <FormGroup>
             <Label for="referenceName">Chromosome</Label>
             <Input required type="text" id="chromosome" />

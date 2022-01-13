@@ -23,38 +23,40 @@ function VariantsTable({ rowData, datasetId }) {
       { headerName: 'Alternate Bases', field: 'alternateBases' },
     ];
 
+    if (rowData[0] !== undefined) { // First population is empty
+      const { attr } = rowData[0].attributes;
+      Object.keys(attr).forEach((key) => {
+        columnDefs.push({
+          headerName: key,
+          valueFormatter: (params) => {
+            try {
+              let attributeValue;
 
-    if(rowData[0] !== undefined) { // First population is empty
-      const attr = rowData[0].attributes.attr;
+              if (params.value.values[0].stringValue !== undefined) {
+                attributeValue = params.value.values[0].stringValue;
+              } else if (params.value.values[0].doubleValue !== undefined) {
+                attributeValue = params.value.values[0].doubleValue;
+              } else if (params.value.values[0].int32Value !== undefined) {
+                attributeValue = params.value.values[0].int32Value;
+              }
 
-        for(var key in attr){
-          columnDefs.push({
-            headerName: key,
-             valueFormatter: params => {
-              try {
-                const attributeValue = params.value.values[0].stringValue ? params.value.values[0].stringValue : (params.value.values[0].doubleValue ? params.value.values[0].doubleValue : params.value.values[0].int32Value);
-                if(params.colDef.headerName === 'SNVSB'){
-                  return params.value.values[0].doubleValue;
-                }else{
-                  return attributeValue;
-                }
-              } catch (error) {
-                // console.log(error);
-                /*
+              return attributeValue;
+            } catch (error) {
+              // console.log(error);
+              /*
                 * This is to handle the case where the attribute value is not available in the select row
                 */
-              }
+              return 'N/A';
             }
-            ,
-            field: 'attributes.attr.' + key, // Allows us to work with key without it retroactively changing to the last key
-            editable: true,
-          });
-      }
+          },
+          field: `attributes.attr.${key}`, // Allows us to work with key without it retroactively changing to the last key
+          editable: true,
+        });
+      });
     }
 
     return columnDefs;
   }
-
 
   function onSelectionChanged() {
     const selectedRows = gridOptions.api.getSelectedRows();
