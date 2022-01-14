@@ -14,3 +14,9 @@
 .ag-popup {
   height: 0;
 }
+
+.multi-select {
+    width: 200px;
+    max-width: 300px;
+}
+  
