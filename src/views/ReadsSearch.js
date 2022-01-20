@@ -4,8 +4,8 @@ import {
 } from 'reactstrap';
 
 import { useSelector } from 'react-redux';
-import { MultiSelect } from 'react-multi-select-component';
 
+import { ListOfReferenceNames } from '../constants/constants';
 import VariantsTable from '../components/Tables/VariantsTable';
 import {
   searchVariant, searchReadGroupSets, searchReads, getReferenceSet,
@@ -28,6 +28,7 @@ function ReadsSearch() {
   const [readGroupSetCount, setReadGroupSetCount] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
   const [apiResponse, setApiResponse] = useState({});
+  const [bamOptionList, setBamOptionList] = useState([]);
   const { promiseInProgress } = usePromiseTracker();
   const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState([]);
@@ -45,18 +46,66 @@ function ReadsSearch() {
     });
   }
 
+  /*
+  Build the dropdown for BAM files
+  * @param {None}
+  * Return a list of options with BAM files
+  */
+  function bamSelectBuilder(readGroupSets) {
+    let bamOptions = [];
+
+    readGroupSets.forEach((readGroupSet) => {
+      bamOptions.push(
+        <option
+          key={readGroupSet.name}
+          value={readGroupSet.id}
+        >
+          {readGroupSet.name}
+        </option>,
+      )
+    });
+
+    setBamOptionList(bamOptions);
+  }
+
+  /*
+  Build the dropdown for chromosome
+  * @param {None}
+  * Return a list of options with chromosome
+  */
+  function chrSelectBuilder() {
+    const refNameList = [];
+
+    ListOfReferenceNames.forEach((refName) => {
+      refNameList.push(
+        <option
+          key={refName}
+          value={refName}
+        >
+          {refName}
+        </option>,
+      )
+    });
+    return refNameList;
+  }
+
   useEffect(() => {
+    setBamOptionList([]);
+
     // Check for variant and reference name set on datasetId changes
     trackPromise(
         searchReadGroupSets(datasetId).then((data) => {
         setApiResponse(data);
         setReadGroupSetCount(data.results.total);
         setSelected([]);
-        data.results.readGroupSets.forEach((readGroupSet) => {
-          options.push({ label: readGroupSet.name, value: readGroupSet.id });
-        });
-        setOptions(options);
-        setSelected(options);
+
+        bamSelectBuilder(data.results.readGroupSets);
+
+        // data.results.readGroupSets.forEach((readGroupSet) => {
+        //   options.push({ label: readGroupSet.name, value: readGroupSet.id });
+        // });
+        // setOptions(options);
+        // setSelected(options);
         settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
       }).catch(() => {
         setReadGroupSetCount('Not Available');
@@ -68,17 +117,12 @@ function ReadsSearch() {
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
 
-    if (selected) {
-      selected.forEach((readGroupSetId) => {
-        readGroupSetIds.push(readGroupSetId.value);
-    });
+    const readGroupSetId = e.target.bam.value;
 
     let readGroupIds = [];
 
-    console.log(readGroupSetIds);
-
     apiResponse.results.readGroupSets.forEach((readGroupSet) => {
-        if (readGroupSetIds.includes(readGroupSet.id)) {
+        if (readGroupSetId === readGroupSet.id) {
             readGroupSet.readGroups.forEach((readGroup) => {
                 readGroupIds.push(readGroup.id);
             });
@@ -94,19 +138,6 @@ function ReadsSearch() {
         //   setDisplayVariantsTable(false);
         });
         setReadGroupSetIds([]);
-    } else {
-      searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.chromosome.value).then((data) => {
-        setRowData(data.results.variants);
-        setDisplayVariantsTable(true);
-      }).catch(() => {
-        setDisplayVariantsTable(false);
-        notify(
-          notifyEl,
-          'No reads were found.',
-          'warning',
-        );
-      });
-    }
   };
 
   return (
@@ -164,21 +195,13 @@ function ReadsSearch() {
           </Col>
         </Row>
         <Form inline onSubmit={formHandler} style={{ justifyContent: 'center' }}>
-          { options.length > 0
-            && (
-            <FormGroup>
-              <Label for="VariantSetIds">BAMs</Label>
-              <MultiSelect // Width set in CSS
-                options={options}
-                value={selected}
-                onChange={setSelected}
-                labelledBy="Select"
-              />
-            </FormGroup>
-            )}
           <FormGroup>
-            <Label for="referenceName">Chromosome</Label>
-            <Input required type="text" id="chromosome" />
+              <Label for="bam">BAMs</Label>
+              <Input style={{ maxWidth: '200px' }} required type="select" id="bam">{ bamOptionList }</Input>
+          </FormGroup>
+          <FormGroup>
+            <Label for="chromosome">Chromosome</Label>
+            <Input required type="select" id="chromosome">{ chrSelectBuilder() }</Input>
           </FormGroup>
           <FormGroup>
             <Label for="start">Start</Label>
