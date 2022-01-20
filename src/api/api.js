@@ -202,6 +202,62 @@ function searchVariantSets(datasetId) {
 }
 
 /*
+Fetch read group set for a specific datasetId; and returns a promise
+ * @param {string}... datasetId
+*/
+function searchReadGroupSets(datasetId) {
+  return fetch(`${BASE_URL}/readgroupsets/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      datasetId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
+/*
+Fetch reads for a specific start, end, reference name; and returns a promise
+ * @param {string}... datasetId
+ * @param {number}... start
+ * @param {number}... end
+ * @param {array}... readGroupIds
+ * @param {string}... referenceGenome
+ * @param {string}... referenceName
+*/
+function searchReads(start, end, referenceName, referenceGenome, readGroupIds) {
+  let rawReferenceId = `["${referenceGenome}","${referenceName}"]`;
+  let referenceId = btoa(rawReferenceId).replaceAll('=', '');
+
+  console.log(JSON.stringify({
+    readGroupIds,
+    start,
+    end,
+    referenceId,
+  }));
+
+  return fetch(`${BASE_URL}/reads/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      readGroupIds,
+      start,
+      end,
+      referenceId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
+/*
 Fetch reference set for a specific referenceSetId; and returns a promise
  * @param {string}... Reference set ID
 */
@@ -226,6 +282,8 @@ export {
   searchBeaconRange,
   searchBeaconFreq,
   searchVariantSets,
+  searchReadGroupSets,
+  searchReads,
   getReferenceSet,
   searchVariantByVariantSetIds
 };

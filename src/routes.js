@@ -23,6 +23,7 @@ import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
 import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
+import ReadsSearch from 'views/ReadsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
 import ErrorPageNotFound from 'views/ErrorPageNotFound';
@@ -55,6 +56,13 @@ const routes = [
     name: 'Variants Search',
     icon: 'nc-icon nc-zoom-split',
     component: VariantsSearch,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/reads-search',
+    name: 'Reads Search',
+    icon: 'nc-icon nc-zoom-split',
+    component: ReadsSearch,
     layout: '/v2/dashboard',
   },
   {
