@@ -28,7 +28,7 @@ function VariantsSearch() {
   const [variantSet, setVariantSets] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
   const { promiseInProgress } = usePromiseTracker();
-  const [options, setOptions] = useState([]);
+  const [options] = useState([]);
   const [selected, setSelected] = useState([]);
   const [variantSetIds, setVariantSetIds] = useState([]);
 
@@ -49,12 +49,10 @@ function VariantsSearch() {
     trackPromise(
       searchVariantSets(datasetId).then((data) => {
         setVariantSets(data.results.total);
-        setSelected([]);
+        options.length = 0;
         data.results.variantSets.forEach((variant) => {
           options.push({ label: variant.name, value: variant.id });
         });
-        setOptions(options);
-        setSelected(options);
         settingReferenceSetName(data.results.variantSets[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');
