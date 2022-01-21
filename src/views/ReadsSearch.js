@@ -5,7 +5,7 @@ import {
 
 import { useSelector } from 'react-redux';
 
-import { ListOfReferenceNames } from '../constants/constants';
+import { ListOfSimpleReferenceNames } from '../constants/constants';
 import ReadsTable from '../components/Tables/ReadsTable';
 import {
   searchReadGroupSets, searchReads, getReferenceSet,
@@ -30,8 +30,6 @@ function ReadsSearch() {
   const [apiResponse, setApiResponse] = useState({});
   const [bamOptionList, setBamOptionList] = useState([]);
   const { promiseInProgress } = usePromiseTracker();
-  const [options, setOptions] = useState([]);
-  const [readGroupSetIds, setReadGroupSetIds] = useState([]);
 
   /*
   Fetches reference set Name and sets referenceSetName
@@ -75,7 +73,7 @@ function ReadsSearch() {
   function chrSelectBuilder() {
     const refNameList = [];
 
-    ListOfReferenceNames.forEach((refName) => {
+    ListOfSimpleReferenceNames.forEach((refName) => {
       refNameList.push(
         <option
           key={refName}
@@ -104,7 +102,7 @@ function ReadsSearch() {
         setReferenceSetName('Not Available');
       }),
     );
-  }, [datasetId, options]);
+  }, [datasetId]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
@@ -129,8 +127,12 @@ function ReadsSearch() {
         }).catch(() => {
           setRowData([]);
           setDisplayReadsTable(false);
+          notify(
+            notifyEl,
+            'Sorry, but no reads were found in your search range.',
+            'warning',
+          );
         });
-        setReadGroupSetIds([]);
   };
 
   return (
@@ -187,9 +189,9 @@ function ReadsSearch() {
             </Card>
           </Col>
         </Row>
-        <Form inline onSubmit={formHandler} style={{ justifyContent: 'center' }}>
+        <Form inline onSubmit={formHandler} style={{ justifyContent: 'center', marginBottom: '20px' }}>
           <FormGroup>
-              <Label for="bam">BAMs</Label>
+              <Label for="bam">BAM</Label>
               <Input style={{ maxWidth: '200px' }} required type="select" id="bam">{ bamOptionList }</Input>
           </FormGroup>
           <FormGroup>

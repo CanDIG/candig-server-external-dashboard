@@ -76,6 +76,11 @@ export const ListOfReferenceNames = [
   'chr17', 'chr18', 'chr19', 'chr20', 'chr21', 'chr22', 'chrX', 'chrY', 'chrMT',
 ];
 
+export const ListOfSimpleReferenceNames = [
+  '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16',
+  '17', '18', '19', '20', '21', '22', 'X', 'Y', 'MT'
+];
+
 export const BeaconFreqTableColumnDefs = [
   { headerName: 'Chromosome', field: 'referenceName' },
   {

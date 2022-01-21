@@ -1,15 +1,12 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
-import { notify, NotificationAlert } from '../../utils/alert';
-import VariantsTableButton from './VariantsTableButton';
 
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import '../../assets/css/VariantsSearch.css';
 
 function ReadsTable({ rowData, datasetId }) {
-  const notifyEl = useRef(null);
 
   let gridOptions = {};
 
@@ -44,14 +41,10 @@ function ReadsTable({ rowData, datasetId }) {
     paginationAutoPageSize: true,
     pagination: true,
     valueCache: true,
-    frameworkComponents: {
-      VariantsTableButton,
-    },
   };
 
   return (
     <>
-      <NotificationAlert ref={notifyEl} />
       <div className="ag-theme-alpine">
         <AgGridReact
           columnDefs={getColumnDefs()}
