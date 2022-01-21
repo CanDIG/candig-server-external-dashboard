@@ -232,13 +232,7 @@ Fetch reads for a specific start, end, reference name; and returns a promise
 function searchReads(start, end, referenceName, referenceGenome, readGroupIds) {
   let rawReferenceId = `["${referenceGenome}","${referenceName}"]`;
   let referenceId = btoa(rawReferenceId).replaceAll('=', '');
-
-  console.log(JSON.stringify({
-    readGroupIds,
-    start,
-    end,
-    referenceId,
-  }));
+  const pageSize = 100;
 
   return fetch(`${BASE_URL}/reads/search`, {
     method: 'post',
@@ -248,6 +242,7 @@ function searchReads(start, end, referenceName, referenceGenome, readGroupIds) {
       start,
       end,
       referenceId,
+      pageSize
     }),
   }).then((response) => {
     if (response.ok) {

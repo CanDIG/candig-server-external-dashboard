@@ -6,9 +6,9 @@ import {
 import { useSelector } from 'react-redux';
 
 import { ListOfReferenceNames } from '../constants/constants';
-import VariantsTable from '../components/Tables/VariantsTable';
+import ReadsTable from '../components/Tables/ReadsTable';
 import {
-  searchVariant, searchReadGroupSets, searchReads, getReferenceSet,
+  searchReadGroupSets, searchReads, getReferenceSet,
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
@@ -23,7 +23,7 @@ function ReadsSearch() {
   const events = useSelector((state) => state);
   const { datasetId } = events.setData.update;
   const [rowData, setRowData] = useState([]);
-  const [displayVariantsTable, setDisplayVariantsTable] = useState(false);
+  const [displayReadsTable, setDisplayReadsTable] = useState(false);
   const notifyEl = useRef(null);
   const [readGroupSetCount, setReadGroupSetCount] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
@@ -31,7 +31,6 @@ function ReadsSearch() {
   const [bamOptionList, setBamOptionList] = useState([]);
   const { promiseInProgress } = usePromiseTracker();
   const [options, setOptions] = useState([]);
-  const [selected, setSelected] = useState([]);
   const [readGroupSetIds, setReadGroupSetIds] = useState([]);
 
   /*
@@ -97,15 +96,8 @@ function ReadsSearch() {
         searchReadGroupSets(datasetId).then((data) => {
         setApiResponse(data);
         setReadGroupSetCount(data.results.total);
-        setSelected([]);
 
         bamSelectBuilder(data.results.readGroupSets);
-
-        // data.results.readGroupSets.forEach((readGroupSet) => {
-        //   options.push({ label: readGroupSet.name, value: readGroupSet.id });
-        // });
-        // setOptions(options);
-        // setSelected(options);
         settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
       }).catch(() => {
         setReadGroupSetCount('Not Available');
@@ -132,10 +124,11 @@ function ReadsSearch() {
       searchReads(e.target.start.value, e.target.end.value, e.target.chromosome.value, referenceSetName, readGroupIds)
         .then((data) => {
           console.log(data)
-        //   setRowData(data.results.variants);
+          setDisplayReadsTable(true);
+          setRowData(data.results.alignments);
         }).catch(() => {
-        //   setRowData([]);
-        //   setDisplayVariantsTable(false);
+          setRowData([]);
+          setDisplayReadsTable(false);
         });
         setReadGroupSetIds([]);
   };
@@ -214,7 +207,7 @@ function ReadsSearch() {
           <Button>Search</Button>
         </Form>
 
-        {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : null }
+        {displayReadsTable ? <ReadsTable rowData={rowData} datasetId={datasetId} /> : null }
       </div>
     </>
   );
