@@ -17,17 +17,16 @@
   included in all copies or substantial portions of the Software.
 
 */
+import ReadsSearch from 'views/ReadsSearch';
+import ErrorPageNotFound from 'views/ErrorPageNotFound';
 import Overview from './views/Overview';
 import APIInfo from './views/APIInfo';
 import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
 import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
-import ReadsSearch from 'views/ReadsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
-import ErrorPageNotFound from 'views/ErrorPageNotFound';
-
 
 const routes = [
   {

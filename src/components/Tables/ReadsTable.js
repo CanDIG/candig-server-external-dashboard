@@ -7,7 +7,6 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import '../../assets/css/VariantsSearch.css';
 
 function ReadsTable({ rowData, datasetId }) {
-
   let gridOptions = {};
 
   function getColumnDefs() {
@@ -17,7 +16,7 @@ function ReadsTable({ rowData, datasetId }) {
       { headerName: 'Number Reads', field: 'numberReads' },
       { headerName: 'Fragment Length', field: 'fragmentLength' },
       { headerName: 'Read Number', field: 'readNumber' },
-      { headerName: 'Improper Placement', field: 'improperPlacement' }
+      { headerName: 'Improper Placement', field: 'improperPlacement' },
     ];
 
     return columnDefs;

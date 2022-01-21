@@ -49,7 +49,7 @@ function ReadsSearch() {
   * Return a list of options with BAM files
   */
   function bamSelectBuilder(readGroupSets) {
-    let bamOptions = [];
+    const bamOptions = [];
 
     readGroupSets.forEach((readGroupSet) => {
       bamOptions.push(
@@ -59,7 +59,7 @@ function ReadsSearch() {
         >
           {readGroupSet.name}
         </option>,
-      )
+      );
     });
 
     setBamOptionList(bamOptions);
@@ -81,7 +81,7 @@ function ReadsSearch() {
         >
           {refName}
         </option>,
-      )
+      );
     });
     return refNameList;
   }
@@ -91,7 +91,7 @@ function ReadsSearch() {
 
     // Check for variant and reference name set on datasetId changes
     trackPromise(
-        searchReadGroupSets(datasetId).then((data) => {
+      searchReadGroupSets(datasetId).then((data) => {
         setApiResponse(data);
         setReadGroupSetCount(data.results.total);
 
@@ -106,33 +106,33 @@ function ReadsSearch() {
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
+    setDisplayReadsTable(false);
 
     const readGroupSetId = e.target.bam.value;
-
-    let readGroupIds = [];
+    const readGroupIds = [];
 
     apiResponse.results.readGroupSets.forEach((readGroupSet) => {
-        if (readGroupSetId === readGroupSet.id) {
-            readGroupSet.readGroups.forEach((readGroup) => {
-                readGroupIds.push(readGroup.id);
-            });
-        }
+      if (readGroupSetId === readGroupSet.id) {
+        readGroupSet.readGroups.forEach((readGroup) => {
+          readGroupIds.push(readGroup.id);
+        });
+      }
     });
 
-      searchReads(e.target.start.value, e.target.end.value, e.target.chromosome.value, referenceSetName, readGroupIds)
-        .then((data) => {
-          console.log(data)
-          setDisplayReadsTable(true);
-          setRowData(data.results.alignments);
-        }).catch(() => {
-          setRowData([]);
-          setDisplayReadsTable(false);
-          notify(
-            notifyEl,
-            'Sorry, but no reads were found in your search range.',
-            'warning',
-          );
-        });
+    searchReads(e.target.start.value, e.target.end.value, e.target.chromosome.value, referenceSetName, readGroupIds)
+      .then((data) => {
+        console.log(data);
+        setDisplayReadsTable(true);
+        setRowData(data.results.alignments);
+      }).catch(() => {
+        setRowData([]);
+        setDisplayReadsTable(false);
+        notify(
+          notifyEl,
+          'Sorry, but no reads were found in your search range.',
+          'warning',
+        );
+      });
   };
 
   return (
@@ -191,8 +191,8 @@ function ReadsSearch() {
         </Row>
         <Form inline onSubmit={formHandler} style={{ justifyContent: 'center', marginBottom: '20px' }}>
           <FormGroup>
-              <Label for="bam">BAM</Label>
-              <Input style={{ maxWidth: '200px' }} required type="select" id="bam">{ bamOptionList }</Input>
+            <Label for="bam">BAM</Label>
+            <Input style={{ maxWidth: '200px' }} required type="select" id="bam">{ bamOptionList }</Input>
           </FormGroup>
           <FormGroup>
             <Label for="chromosome">Chromosome</Label>
