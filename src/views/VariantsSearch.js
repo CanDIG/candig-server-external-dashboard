@@ -12,10 +12,7 @@ import {
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
-  usePromiseTracker,
-  trackPromise,
-} from '../components/LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, usePromiseTracker, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 import '../assets/css/VariantsSearch.css';
 

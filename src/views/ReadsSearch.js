@@ -12,9 +12,7 @@ import {
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
-  trackPromise
-} from '../components/LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 import '../assets/css/VariantsSearch.css';
 
@@ -29,7 +27,7 @@ function ReadsSearch() {
   const [apiResponse, setApiResponse] = useState({});
   const [bamOptionList, setBamOptionList] = useState([]);
   /*
-  Fetches reference set Name and sets referenceSetName 
+  Fetches reference set Name and sets referenceSetName
   * @param {string}... referenceSetId
   */
   function settingReferenceSetName(referenceSetId) {
@@ -94,12 +92,12 @@ function ReadsSearch() {
 
         bamSelectBuilder(data.results.readGroupSets);
         settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
-      
       }).catch(() => {
         setReadGroupSetCount('Not Available');
         setReferenceSetName('Not Available');
-      })
-    , 'tile');
+      }),
+      'tile',
+    );
   }, [datasetId]);
 
   const formHandler = (e) => {
@@ -115,8 +113,7 @@ function ReadsSearch() {
           readGroupIds.push(readGroup.id);
         });
       }
-    })
-  
+    });
 
     trackPromise(searchReads(e.target.start.value, e.target.end.value, e.target.chromosome.value, referenceSetName, readGroupIds)
       .then((data) => {
@@ -130,8 +127,8 @@ function ReadsSearch() {
           'Sorry, but no reads were found in your search range.',
           'warning',
         );
-      })
-    , 'table');
+      }),
+    'table');
   };
 
   return (
@@ -151,8 +148,8 @@ function ReadsSearch() {
                   <Col md="8" xs="7">
                     <div className="numbers">
                       <p className="card-category">Reference Genome</p>
-                      {referenceSetName=== '' ? (
-                        <LoadingIndicator area='tile' />
+                      {referenceSetName === '' ? (
+                        <LoadingIndicator area="tile" />
                       ) : (
                         <CardTitle tag="p">{referenceSetName}</CardTitle>
                       )}
@@ -176,7 +173,7 @@ function ReadsSearch() {
                     <div className="numbers">
                       <p className="card-category">ReadGroupSets/BAMs</p>
                       { readGroupSetCount === '' ? (
-                        <LoadingIndicator area='tile' />
+                        <LoadingIndicator area="tile" />
                       ) : (
                         <CardTitle tag="p">{readGroupSetCount}</CardTitle>
                       )}
@@ -208,7 +205,7 @@ function ReadsSearch() {
           <Button>Search</Button>
         </Form>
 
-        {(displayReadsTable ? <ReadsTable rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />) )}
+        {(displayReadsTable ? <ReadsTable rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />))}
       </div>
     </>
   );

@@ -9,7 +9,7 @@ import {
 import BeaconTable from '../components/Tables/BeaconTable';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, { trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 // Consts
 import { BeaconFreqTableColumnDefs, BeaconRangeTableColumnDefs, ListOfReferenceNames } from '../constants/constants';

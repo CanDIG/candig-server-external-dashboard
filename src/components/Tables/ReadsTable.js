@@ -6,68 +6,69 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import '../../assets/css/VariantsSearch.css';
 
-function ReadsTable({ rowData, datasetId, referenceName }) {
+function ReadsTable({ rowData, datasetId }) {
   let gridOptions = {};
 
   function getColumnDefs() {
-    
+    const columnDefs = [
+      {
+        headerName: 'Alignments',
+        children: [
+          { headerName: 'Chromosome', field: 'alignment.position.referenceName' },
+          { headerName: 'Position', field: 'alignment.position.position' },
+          { headerName: 'Aligned Sequence', field: 'alignedSequence' },
+          { headerName: 'Fragment Name', field: 'fragmentName' },
+          { headerName: 'Number Reads', field: 'numberReads' },
+          { headerName: 'Fragment Length', field: 'fragmentLength' },
+          { headerName: 'Read Number', field: 'readNumber' },
+          { headerName: 'Improper Placement', field: 'improperPlacement' },
+        ],
+      },
+    ];
     if (rowData[0] !== undefined) {
-      console.log(rowData);
-      const columnDefs = [
-        {headerName: 'Alignments', 
-          children: [
-            { headerName: 'Chromosome', field: 'alignment.position.referenceName' },
-            { headerName: 'Position', field: 'alignment.position.position' },
-            { headerName: 'Aligned Sequence', field: 'alignedSequence' },
-            { headerName: 'Fragment Name', field: 'fragmentName' },
-            { headerName: 'Number Reads', field: 'numberReads' },
-            { headerName: 'Fragment Length', field: 'fragmentLength' },
-            { headerName: 'Read Number', field: 'readNumber' },
-            { headerName: 'Improper Placement', field: 'improperPlacement' },
-      ]},
-      ];
-
       const attributes = [];
 
-      
-        const { attr } = rowData[0].attributes; // Only grabing attributes from first row other rows could have more
-        Object.keys(attr).forEach((key) => {
-          attributes.push({
-            headerName: key,
-            valueFormatter: (params) => {
-              try {
-                let attributeValue;
+      const { attr } = rowData[0].attributes; // Only grabing attributes from first row other rows could have more
+      Object.keys(attr).forEach((key) => {
+        attributes.push({
+          headerName: key,
+          valueFormatter: (params) => {
+            try {
+              let attributeValue;
 
-                if (params.value.values[0].stringValue !== undefined) {
-                  attributeValue = params.value.values[0].stringValue;
-                } else if (params.value.values[0].doubleValue !== undefined) {
-                  attributeValue = params.value.values[0].doubleValue;
-                } else if (params.value.values[0].int32Value !== undefined) {
-                  attributeValue = params.value.values[0].int32Value;
-                }
+              if (params.value.values[0].stringValue !== undefined) {
+                attributeValue = params.value.values[0].stringValue;
+              } else if (params.value.values[0].doubleValue !== undefined) {
+                attributeValue = params.value.values[0].doubleValue;
+              } else if (params.value.values[0].int32Value !== undefined) {
+                attributeValue = params.value.values[0].int32Value;
+              }
 
-                return attributeValue;
-              } catch (error) {
-                // console.log(error);
-                /*
+              return attributeValue;
+            } catch (error) {
+              // console.log(error);
+              /*
                   * This is to handle the case where the attribute value is not available in the select row
                   */
-                return 'N/A';
-              }
-            },
-            field: `attributes.attr.${key}`, // Allows us to work with key without it retroactively changing to the last key
-            editable: true,
-          });
+              return 'N/A';
+            }
+          },
+          field: `attributes.attr.${key}`, // Allows us to work with key without it retroactively changing to the last key
+          editable: true,
         });
+      });
 
       columnDefs.push(
-        { headerName: "Alignment", 
+        {
+          headerName: 'Alignment',
           children: [
             { headerName: 'Strand', field: 'alignment.position.strand' },
             { headerName: 'Mapping Quality', field: 'alignment.mappingQuality' },
-            { headerName: 'Cigar Operation',  field: 'alignment.cigar',  
+            {
+              headerName: 'Cigar Operation',
+              field: 'alignment.cigar',
               valueFormatter: (params) => {
-                try{
+                try {
                   return params.value[0].operation;
                 } catch (error) {
                   // console.log(error);
@@ -78,7 +79,9 @@ function ReadsTable({ rowData, datasetId, referenceName }) {
                 }
               },
             },
-            { headerName: 'Cigar Operation Length', field: 'alignment.cigar',  
+            {
+              headerName: 'Cigar Operation Length',
+              field: 'alignment.cigar',
               valueFormatter: (params) => {
                 try {
                   return params.value[0].operationLength;
@@ -88,15 +91,16 @@ function ReadsTable({ rowData, datasetId, referenceName }) {
                     * This is to handle the case where the operationLength value is not available in the select row
                     */
                   return 'N/A';
-            } },
+                }
+              },
             },
-          ]
+          ],
         },
-        {headerName: "Attributes", children: attributes},
+        { headerName: 'Attributes', children: attributes },
       );
-
       return columnDefs;
-      }
+    }
+    return columnDefs;
   }
 
   gridOptions = {
