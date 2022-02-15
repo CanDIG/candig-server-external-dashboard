@@ -9,7 +9,7 @@ import {
 import BeaconTable from '../components/Tables/BeaconTable';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import { trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
+import LoadingIndicator, { trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 // Consts
 import { BeaconFreqTableColumnDefs, BeaconRangeTableColumnDefs, ListOfReferenceNames } from '../constants/constants';
@@ -143,7 +143,7 @@ function BeaconSearch() {
 
     setLoadingIndicator('🕛  Loading...');
 
-    requestModeFunc[mode](datasetId, start, end, e.target.referenceName.value)
+    trackPromise(requestModeFunc[mode](datasetId, start, end, e.target.referenceName.value)
       .then((data) => {
         setLoadingIndicator('');
         if (data.results.variants.length !== 0) {
@@ -164,7 +164,8 @@ function BeaconSearch() {
         setLoadingIndicator('');
         setRowData([]);
         notificationHandler('No variants were found.', 'warning');
-      });
+      }),
+    'table');
   };
 
   return (
@@ -303,7 +304,7 @@ function BeaconSearch() {
           </div>
         </Row>
 
-        {displayBeaconTable ? <BeaconTable columnDefs={activeColumnDefs} rowData={rowData} datasetId={datasetId} /> : null }
+        {displayBeaconTable ? <BeaconTable columnDefs={activeColumnDefs} rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />) }
 
       </div>
     </>
