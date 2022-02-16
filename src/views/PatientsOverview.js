@@ -7,10 +7,7 @@ import {
 import useStateWithCallback from 'use-state-with-callback';
 
 import { useSelector } from 'react-redux';
-import LoadingIndicator, {
-  trackPromise,
-  usePromiseTracker,
-} from '../components/LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, trackPromise, usePromiseTracker } from '../components/LoadingIndicator/LoadingIndicator';
 import { groupBy } from '../utils/utils';
 import { notify, NotificationAlert } from '../utils/alert';
 import CustomOfflineChart from '../components/Graphs/CustomOfflineChart';

@@ -5,7 +5,7 @@ import HighchartsMap from 'highcharts/modules/map';
 import mapDataCanada from '@highcharts/map-collection/countries/ca/ca-all.geo.json';
 import PropTypes from 'prop-types';
 
-import LoadingIndicator, { usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, usePromiseTracker } from '../LoadingIndicator/LoadingIndicator';
 import { notify, NotificationAlert } from '../../utils/alert';
 import {
   hcProvCodes, provShortCodes, provFullNames, highchartsMapInitialState,

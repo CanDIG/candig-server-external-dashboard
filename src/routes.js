@@ -17,6 +17,8 @@
   included in all copies or substantial portions of the Software.
 
 */
+import ReadsSearch from 'views/ReadsSearch';
+import ErrorPageNotFound from 'views/ErrorPageNotFound';
 import Overview from './views/Overview';
 import APIInfo from './views/APIInfo';
 import CustomVisualization from './views/CustomVisualization';
@@ -25,8 +27,6 @@ import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
-import ErrorPageNotFound from 'views/ErrorPageNotFound';
-
 
 const routes = [
   {
@@ -55,6 +55,13 @@ const routes = [
     name: 'Variants Search',
     icon: 'nc-icon nc-zoom-split',
     component: VariantsSearch,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/reads-search',
+    name: 'Reads Search',
+    icon: 'nc-icon nc-zoom-split',
+    component: ReadsSearch,
     layout: '/v2/dashboard',
   },
   {

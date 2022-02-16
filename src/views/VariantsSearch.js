@@ -12,10 +12,7 @@ import {
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
-  usePromiseTracker,
-  trackPromise,
-} from '../components/LoadingIndicator/LoadingIndicator';
+import { LoadingIndicator, usePromiseTracker, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
 
 import '../assets/css/VariantsSearch.css';
 
@@ -28,7 +25,7 @@ function VariantsSearch() {
   const [variantSet, setVariantSets] = useState('');
   const [referenceSetName, setReferenceSetName] = useState('');
   const { promiseInProgress } = usePromiseTracker();
-  const [options] = useState([]);
+  const [options, setOptions] = useState([]);
   const [selected, setSelected] = useState([]);
   const [variantSetIds, setVariantSetIds] = useState([]);
 
@@ -50,11 +47,13 @@ function VariantsSearch() {
       searchVariantSets(datasetId).then((data) => {
         setVariantSets(data.results.total);
         setSelected([]);
-        options.length = 0;
+        const dropdownOptions = [];
+        dropdownOptions.length = 0;
         data.results.variantSets.forEach((variant) => {
-          options.push({ label: variant.name, value: variant.id });
+          dropdownOptions.push({ label: variant.name, value: variant.id });
         });
-        setSelected(options);
+        setOptions(dropdownOptions);
+        setSelected(dropdownOptions);
         settingReferenceSetName(data.results.variantSets[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');
@@ -66,7 +65,7 @@ function VariantsSearch() {
         // );
       }),
     );
-  }, [datasetId, options]);
+  }, [datasetId]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
@@ -76,7 +75,7 @@ function VariantsSearch() {
         variantSetIds.push(variantSetId.value);
       });
       // searchVariant(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds) query /variants/search
-      searchVariantByVariantSetIds(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds)
+      trackPromise(searchVariantByVariantSetIds(e.target.start.value, e.target.end.value, e.target.chromosome.value, variantSetIds)
         .then((data) => {
           setDisplayVariantsTable(true);
           setRowData(data.results.variants);
@@ -88,7 +87,8 @@ function VariantsSearch() {
           //             'No variants were found.',
           //             'warning',
           //           );
-        });
+        }),
+      'table');
       setVariantSetIds([]);
     } else {
       searchVariant(datasetId, e.target.start.value, e.target.end.value, e.target.chromosome.value).then((data) => {
@@ -187,7 +187,7 @@ function VariantsSearch() {
           <Button>Search</Button>
         </Form>
 
-        {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : null }
+        {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />) }
       </div>
     </>
   );
