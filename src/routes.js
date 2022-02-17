@@ -27,6 +27,8 @@ import TableList from './views/MetadataTableApp';
 import VariantsSearch from './views/VariantsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
+import BamBrowser from './views/BamBrowser';
+import VcfBrowser from './views/VcfBrowser';
 
 const routes = [
   {
@@ -58,10 +60,24 @@ const routes = [
     layout: '/v2/dashboard',
   },
   {
+    path: '/vcf-browser',
+    name: 'VCF Browser',
+    icon: 'nc-icon nc-zoom-split',
+    component: VcfBrowser,
+    layout: '/v2/dashboard',
+  },
+  {
     path: '/reads-search',
     name: 'Reads Search',
     icon: 'nc-icon nc-zoom-split',
     component: ReadsSearch,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/bam-browser',
+    name: 'BAM Browser',
+    icon: 'nc-icon nc-zoom-split',
+    component: BamBrowser,
     layout: '/v2/dashboard',
   },
   {

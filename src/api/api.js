@@ -1,4 +1,4 @@
-import BASE_URL from '../constants/constants';
+import { BASE_URL } from '../constants/constants';
 
 /*
 Fetch patients from CanDIG web api and returns a promise
