@@ -123,10 +123,10 @@ export const BeaconRangeTableColumnDefs = [
   { headerName: 'Reference Allele', field: 'referenceBases' },
   { headerName: 'Exists', field: 'exists' },
 ];
- 
+
 export const referenceToIgvTrack = {
-  'hg19': ['hg19', 'hg19a', 'grch37'],
-  'hg38': ['hg38', 'grch38'],
+  hg19: ['hg19', 'hg19a', 'hs37d5', 'grch37'],
+  hg38: ['hg38', 'grch38'],
 };
 
 export default BASE_URL;
