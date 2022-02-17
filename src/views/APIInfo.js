@@ -12,7 +12,7 @@ import {
 } from 'reactstrap';
 
 // Consts
-import BASE_URL from '../constants/constants';
+import { BASE_URL } from '../constants/constants';
 
 /*
  * API Info component

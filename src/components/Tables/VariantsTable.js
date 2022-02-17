@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { AgGridReact } from 'ag-grid-react';
-import BASE_URL from '../../constants/constants';
+import { BASE_URL } from '../../constants/constants';
 import { notify, NotificationAlert } from '../../utils/alert';
 import VariantsTableButton from './VariantsTableButton';
 

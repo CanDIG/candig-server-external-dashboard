@@ -100,9 +100,9 @@ function VcfBrowser() {
 
     // Determine the reference genome for IGV based on the name of referenceSet
     Object.keys(referenceToIgvTrack).forEach((key) => {
-        if (referenceToIgvTrack[key].includes(referenceSetName.toLowerCase())) {
-          setIgvTrackRefGenome(key);
-        }
+      if (referenceToIgvTrack[key].includes(referenceSetName.toLowerCase())) {
+        setIgvTrackRefGenome(key);
+      }
     });
 
     setVariantsTracks(tracks);
