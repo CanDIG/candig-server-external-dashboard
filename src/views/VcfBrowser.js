@@ -5,15 +5,16 @@ import {
 
 import { useSelector } from 'react-redux';
 import { MultiSelect } from 'react-multi-select-component';
-import BASE_URL, {referenceToIgvTrack} from '../constants/constants';
+import { BASE_URL, referenceToIgvTrack } from '../constants/constants';
 
 import VcfInstance from '../components/IGV/VcfInstance';
 import {
-  searchVariantSets, getReferenceSet
+  searchVariantSets, getReferenceSet,
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
+import {
+  LoadingIndicator,
   usePromiseTracker,
   trackPromise,
 } from '../components/LoadingIndicator/LoadingIndicator';
@@ -65,7 +66,7 @@ function VcfBrowser() {
         setReferenceSetName('Not Available');
 
         // Do not show error message when datasetId is empty
-        if (datasetId !== "") {
+        if (datasetId !== '') {
           notify(
             notifyEl,
             'No VariantSets are available.',
@@ -78,32 +79,31 @@ function VcfBrowser() {
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
-    let tracks = [];
+    const tracks = [];
 
     if (selected) {
-        selected.forEach((variantSetId) => {
+      selected.forEach((variantSetId) => {
+        const igvVariantObject = {
+          sourceType: 'ga4gh',
+          type: 'variant',
+          url: BASE_URL,
+          referenceName: '',
+          variantSetId: variantSetId.value,
+          name: variantSetId.label,
+          pageSize: 10000,
+          visibilityWindow: 1000000,
+        };
 
-            let igv_variant_object = {
-                sourceType: "ga4gh",
-                type: "variant",
-                url: BASE_URL,
-                referenceName: "",
-                variantSetId: variantSetId.value,
-                name: variantSetId.label,
-                pageSize: 10000,
-                visibilityWindow: 1000000
-            };
-
-        tracks.push(igv_variant_object);
+        tracks.push(igvVariantObject);
       });
     }
 
     // Determine the reference genome for IGV based on the name of referenceSet
-    for (const ref in referenceToIgvTrack) {
-      if (referenceToIgvTrack[ref].includes(referenceSetName.toLowerCase())) {
-        setIgvTrackRefGenome(ref);
-      }
-    }
+    Object.keys(referenceToIgvTrack).forEach((key) => {
+        if (referenceToIgvTrack[key].includes(referenceSetName.toLowerCase())) {
+          setIgvTrackRefGenome(key);
+        }
+    });
 
     setVariantsTracks(tracks);
   };
@@ -177,34 +177,42 @@ function VcfBrowser() {
             </FormGroup>
             )}
 
-            {/* Use <a> instead of Button to be Safari-compatible */}
+          {/* Use <a> instead of Button to be Safari-compatible */}
             <a href="#" tabIndex="0" id="PopoverFocus" > {/* eslint-disable-line */}
               <Button color="info" style={{ marginRight: '10px', marginTop: '10px' }}>HELP</Button>
             </a>
-            <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
-              <PopoverHeader>IGV Browser for VCF files</PopoverHeader>
-              <PopoverBody>
-                <p>
-                  First, select VariantSets/VCFs of interest in the leftmost dropdown.
-                  We recommend <b>no more than 5</b> VariantSets at one time.
-                </p>
-                <p>
-                  To view data on desired location, input location in the text field left
-                  to the <span role="img" aria-label='magnifying glass'>🔍</span> in IGV Browser, and click 'Enter'. 
-                  For example, to go to pos 20000 to 22000 on chr2, input 'chr2:20000-22000'.
-                </p>
-                <p>You may also double click on desired location to zoom in.</p>
-                <p>The visibility window is 1,000,000 bps.</p>
-              </PopoverBody>
-            </UncontrolledPopover>
+          <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
+            <PopoverHeader>IGV Browser for VCF files</PopoverHeader>
+            <PopoverBody>
+              <p>
+                First, select VariantSets/VCFs of interest in the leftmost dropdown.
+                We recommend
+                {' '}
+                <b>no more than 5</b>
+                {' '}
+                VariantSets at one time.
+              </p>
+              <p>
+                To view data on desired location, input location in the text field left
+                to the
+                {' '}
+                <span role="img" aria-label="magnifying glass">🔍</span>
+                {' '}
+                in IGV Browser, and click Enter.
+                For example, to go to pos 20000 to 22000 on chr2, input chr2:20000-22000.
+              </p>
+              <p>You may also double click on desired location to zoom in.</p>
+              <p>The visibility window is 1,000,000 bps.</p>
+            </PopoverBody>
+          </UncontrolledPopover>
 
           <Button>Open Browser</Button>
         </Form>
 
-        <VcfInstance 
-            tracks={variantsTracks}
-            genome={igvTrackRefGenome}
-            datasetId={datasetId}
+        <VcfInstance
+          tracks={variantsTracks}
+          genome={igvTrackRefGenome}
+          datasetId={datasetId}
         />
       </div>
     </>

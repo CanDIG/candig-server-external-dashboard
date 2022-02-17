@@ -4,15 +4,18 @@ import PropTypes from 'prop-types';
 // TODO: Importing from igv.esm.min.js is not working
 import igv from 'igv/dist/igv.esm';
 
-function BamInstance({ tracks, genome, datasetId }) {
+function BamInstance({
+  tracks, genome, chromosome, datasetId,
+}) {
   /** *
    * A functional component that returns an IGV.js instance dedicated to rendering BAM/CRAM files.
    */
   const igvBrowser = useRef(null);
 
   useEffect(() => {
-    let igvOptions = {
-      genome: genome,
+    const igvOptions = {
+      genome,
+      showChromosomeWidget: false,
       tracks: [],
     };
     igv.removeAllBrowsers(); // Remove existing browser instances
@@ -21,14 +24,14 @@ function BamInstance({ tracks, genome, datasetId }) {
     igvOptions.tracks = tracks;
 
     if (igvOptions.tracks.length > 0) {
-        igv.createBrowser(igvBrowser.current, igvOptions).then((browser) => {
-            browser.on('trackclick', (track, popoverData) => {
-                console.log(popoverData);
-            });
-        });
+      igv.createBrowser(igvBrowser.current, igvOptions).then((browser) => {
+        // browser.on('trackclick', (track, popoverData) => {
+        //    console.log(popoverData);
+        // });
+        browser.search(`chr${chromosome}`);
+      });
     }
-    
-  }, [tracks, genome, datasetId]);
+  }, [tracks, genome, chromosome, datasetId]);
 
   return (
     <>
@@ -43,8 +46,9 @@ function BamInstance({ tracks, genome, datasetId }) {
 }
 
 BamInstance.propTypes = {
-  tracks: PropTypes.array.isRequired,
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   genome: PropTypes.string.isRequired,
+  chromosome: PropTypes.string.isRequired,
   datasetId: PropTypes.string.isRequired,
 };
 

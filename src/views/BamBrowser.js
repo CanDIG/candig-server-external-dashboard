@@ -1,19 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, Row, Col, UncontrolledPopover, PopoverHeader, PopoverBody
+  Button, Form, FormGroup, Label, Input, Card, CardBody, CardTitle, Row, Col, UncontrolledPopover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 
 import { useSelector } from 'react-redux';
 import { MultiSelect } from 'react-multi-select-component';
-import { BASE_URL, ListOfSimpleReferenceNames, referenceToIgvTrack} from '../constants/constants';
+import { BASE_URL, ListOfSimpleReferenceNames, referenceToIgvTrack } from '../constants/constants';
 
 import BamInstance from '../components/IGV/BamInstance';
 import {
-  searchReadGroupSets, getReferenceSet
+  searchReadGroupSets, getReferenceSet,
 } from '../api/api';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import LoadingIndicator, {
+import {
+  LoadingIndicator,
   usePromiseTracker,
   trackPromise,
 } from '../components/LoadingIndicator/LoadingIndicator';
@@ -32,6 +33,7 @@ function BamBrowser() {
   const [readsTracks, setReadsTracks] = useState([]);
   const [apiResponse, setApiResponse] = useState({});
   const [igvTrackRefGenome, setIgvTrackRefGenome] = useState('');
+  const [selectedChr, setSelectedChr] = useState('');
 
   /*
   Fetches reference set Name and sets referenceSetName
@@ -73,22 +75,22 @@ function BamBrowser() {
 
     // Check for variant and reference name set on datasetId changes
     trackPromise(
-        searchReadGroupSets(datasetId).then((data) => {
-            setApiResponse(data);
-            setVariantSets(data.results.total);
-            setSelected([]);
-            options.length = 0;
-            data.results.readGroupSets.forEach((readgroupset) => {
-            options.push({ label: readgroupset.name, value: readgroupset.id });
-            });
-            setSelected(options);
-            settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
+      searchReadGroupSets(datasetId).then((data) => {
+        setApiResponse(data);
+        setVariantSets(data.results.total);
+        setSelected([]);
+        options.length = 0;
+        data.results.readGroupSets.forEach((readgroupset) => {
+          options.push({ label: readgroupset.name, value: readgroupset.id });
+        });
+        setSelected(options);
+        settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');
         setReferenceSetName('Not Available');
 
         // Do not show error message when datasetId is empty
-        if (datasetId !== "") {
+        if (datasetId !== '') {
           notify(
             notifyEl,
             'No ReadGroupSets are available.',
@@ -101,49 +103,49 @@ function BamBrowser() {
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
-    let tracks = [];
+    const tracks = [];
 
     if (selected) {
-        selected.forEach((readGroupSetId) => {
+      selected.forEach((readGroupSetId) => {
+        const readGroupIds = [];
 
-            const readGroupIds = [];
-
-            apiResponse.results.readGroupSets.forEach((readGroupSet) => {
-              if (readGroupSetId.value === readGroupSet.id) {
-                readGroupSet.readGroups.forEach((readGroup) => {
-                  readGroupIds.push(readGroup.id);
-                });
-              }
+        apiResponse.results.readGroupSets.forEach((readGroupSet) => {
+          if (readGroupSetId.value === readGroupSet.id) {
+            readGroupSet.readGroups.forEach((readGroup) => {
+              readGroupIds.push(readGroup.id);
             });
+          }
+        });
 
-            const rawReferenceId = `["${referenceSetName}","${e.target.chromosome.value}"]`;
-            const referenceId = btoa(rawReferenceId).replaceAll('=', '');
+        const rawReferenceId = `["${referenceSetName}","${e.target.chromosome.value}"]`;
+        const referenceId = btoa(rawReferenceId).replaceAll('=', '');
 
-            let igv_alignment_object = {
-                sourceType: "ga4gh",
-                type: "alignment",
-                url: BASE_URL,
-                name: readGroupSetId.label,
-                referenceId: referenceId,
-                readGroupIds: readGroupIds,
-                readGroupSetIds: readGroupSetId.value,
-                visibilityWindow: 1000,
-                sort: {
-                  chr: "chr" + e.target.chromosome.value,
-                }
-            };
+        const igvAlignmentObject = {
+          sourceType: 'ga4gh',
+          type: 'alignment',
+          url: BASE_URL,
+          name: readGroupSetId.label,
+          referenceId,
+          readGroupIds,
+          readGroupSetIds: readGroupSetId.value,
+          visibilityWindow: 1000,
+          sort: {
+            chr: `chr${e.target.chromosome.value}`,
+          },
+        };
 
-        tracks.push(igv_alignment_object);
+        tracks.push(igvAlignmentObject);
       });
     }
 
     // Determine the reference genome for IGV based on the name of referenceSet
-    for (const ref in referenceToIgvTrack) {
-      if (referenceToIgvTrack[ref].includes(referenceSetName.toLowerCase())) {
-        setIgvTrackRefGenome(ref);
+    Object.keys(referenceToIgvTrack).forEach((key) => {
+      if (referenceToIgvTrack[key].includes(referenceSetName.toLowerCase())) {
+        setIgvTrackRefGenome(key);
       }
-    }
+    });
 
+    setSelectedChr(e.target.chromosome.value);
     setReadsTracks(tracks);
   };
 
@@ -215,40 +217,48 @@ function BamBrowser() {
               />
             </FormGroup>
             )}
-            <FormGroup>
-             <Label for="chromosome">Chromosome</Label>
-             <Input required type="select" id="chromosome">{ chrSelectBuilder() }</Input>
-            </FormGroup>
+          <FormGroup>
+            <Label for="chromosome">Chromosome</Label>
+            <Input required type="select" id="chromosome">{ chrSelectBuilder() }</Input>
+          </FormGroup>
 
-            {/* Use <a> instead of Button to be Safari-compatible */}
+          {/* Use <a> instead of Button to be Safari-compatible */}
             <a href="#" tabIndex="0" id="PopoverFocus" > {/* eslint-disable-line */}
               <Button color="info" style={{ marginRight: '10px', marginTop: '10px' }}>HELP</Button>
             </a>
-            <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
-              <PopoverHeader>IGV Browser for BAM files</PopoverHeader>
-              <PopoverBody>
-                <p>
-                  First, select ReadGroupSets of interest in the leftmost dropdown.
-                  We recommend no more than three ReadGroupSets at one time.
-                </p>
-                <p>
-                  <b><span role="img" aria-label='warning'>🛑</span>You must select the chromosome here (left to this button).</b>
-                  {' '}
-                  If you wish to view data on different chromosomes, <b>you must also change it here, and click on
-                  the 'Open Browser' again.</b> Do NOT use the built-in chromosome dropdown of IGV.
-                </p>
-                <p>One ReadGroupSet is usually linked to a BAM or CRAM file.</p>
-                <p>The visibility window is 1,000 bps.</p>
-              </PopoverBody>
-            </UncontrolledPopover>
+          <UncontrolledPopover trigger="focus" placement="bottom" target="PopoverFocus">
+            <PopoverHeader>IGV Browser for BAM files</PopoverHeader>
+            <PopoverBody>
+              <p>
+                First, select ReadGroupSets of interest in the leftmost dropdown.
+                We recommend no more than three ReadGroupSets at one time.
+              </p>
+              <p>
+                <span role="img" aria-label="warning"> 🛑 </span>
+                <b>You must select the chromosome here (left to this button).</b>
+                {' '}
+                If you wish to view data on different chromosomes,
+                {' '}
+                <b>
+                  you must also change it here, and click on
+                  the OPEN BROWSER again.
+                </b>
+                {' '}
+                Do NOT change chromosome in IGV browser.
+              </p>
+              <p>One ReadGroupSet is usually linked to a BAM or CRAM file.</p>
+              <p>The visibility window is 1,000 bps.</p>
+            </PopoverBody>
+          </UncontrolledPopover>
 
           <Button>Open Browser</Button>
         </Form>
 
-        <BamInstance 
-            tracks={readsTracks}
-            genome={igvTrackRefGenome}
-            datasetId={datasetId}
+        <BamInstance
+          tracks={readsTracks}
+          genome={igvTrackRefGenome}
+          chromosome={selectedChr}
+          datasetId={datasetId}
         />
       </div>
     </>

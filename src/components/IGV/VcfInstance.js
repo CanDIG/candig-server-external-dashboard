@@ -11,8 +11,8 @@ function VcfInstance({ tracks, genome, datasetId }) {
   const igvBrowser = useRef(null);
 
   useEffect(() => {
-    let igvOptions = {
-      genome: genome,
+    const igvOptions = {
+      genome,
       tracks: [],
     };
     igv.removeAllBrowsers(); // Remove existing browser instances
@@ -21,13 +21,8 @@ function VcfInstance({ tracks, genome, datasetId }) {
     igvOptions.tracks = tracks;
 
     if (igvOptions.tracks.length > 0) {
-        igv.createBrowser(igvBrowser.current, igvOptions).then((browser) => {
-            browser.on('trackclick', (track, popoverData) => {
-                console.log(popoverData);
-            });
-        });
+      igv.createBrowser(igvBrowser.current, igvOptions);
     }
-    
   }, [tracks, genome, datasetId]);
 
   return (
@@ -43,7 +38,7 @@ function VcfInstance({ tracks, genome, datasetId }) {
 }
 
 VcfInstance.propTypes = {
-  variantsTracks: PropTypes.array.isRequired,
+  tracks: PropTypes.arrayOf(PropTypes.object).isRequired,
   genome: PropTypes.string.isRequired,
   datasetId: PropTypes.string.isRequired,
 };
