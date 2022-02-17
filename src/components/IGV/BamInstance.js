@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 // TODO: Importing from igv.esm.min.js is not working
-import igv from 'igv/dist/igv.esm';
+import igv from '@candig/igv/dist/igv.esm';
 
 function BamInstance({
   tracks, genome, chromosome, datasetId,
