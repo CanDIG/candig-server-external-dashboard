@@ -3,7 +3,7 @@
  */
 
 // API URL where the Dashboard get all the data
-const BASE_URL = process.env.REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL;
+export const BASE_URL = process.env.REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL;
 
 export const CLIN_METADATA = [
   'celltransplants',
@@ -123,5 +123,10 @@ export const BeaconRangeTableColumnDefs = [
   { headerName: 'Reference Allele', field: 'referenceBases' },
   { headerName: 'Exists', field: 'exists' },
 ];
+
+export const referenceToIgvTrack = {
+  "hg19": ["hg19", "hg19a", "GRCh37"],
+  "hg38": ["hg38", "GRCh38"],
+}
 
 export default BASE_URL;
