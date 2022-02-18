@@ -28,7 +28,12 @@ function BamInstance({
         // browser.on('trackclick', (track, popoverData) => {
         //    console.log(popoverData);
         // });
-        browser.search(`chr${chromosome}`);
+        if (chromosome.includes('chr')) {
+          browser.search(chromosome);
+        }
+        else {
+          browser.search(`chr${chromosome}`);
+        }
       });
     }
   }, [tracks, genome, chromosome, datasetId]);

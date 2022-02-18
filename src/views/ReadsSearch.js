@@ -5,7 +5,7 @@ import {
 
 import { useSelector } from 'react-redux';
 
-import { ListOfSimpleReferenceNames } from '../constants/constants';
+import { ListOfReferenceNames } from '../constants/constants';
 import ReadsTable from '../components/Tables/ReadsTable';
 import {
   searchReadGroupSets, searchReads, getReferenceSet,
@@ -68,7 +68,7 @@ function ReadsSearch() {
   function chrSelectBuilder() {
     const refNameList = [];
 
-    ListOfSimpleReferenceNames.forEach((refName) => {
+    ListOfReferenceNames.forEach((refName) => {
       refNameList.push(
         <option
           key={refName}
