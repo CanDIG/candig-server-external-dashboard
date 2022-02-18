@@ -30,8 +30,7 @@ function BamInstance({
         // });
         if (chromosome.includes('chr')) {
           browser.search(chromosome);
-        }
-        else {
+        } else {
           browser.search(`chr${chromosome}`);
         }
       });
