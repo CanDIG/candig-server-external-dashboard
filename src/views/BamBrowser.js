@@ -5,7 +5,7 @@ import {
 
 import { useSelector } from 'react-redux';
 import { MultiSelect } from 'react-multi-select-component';
-import { BASE_URL, ListOfSimpleReferenceNames, referenceToIgvTrack } from '../constants/constants';
+import { BASE_URL, ListOfReferenceNames, referenceToIgvTrack } from '../constants/constants';
 
 import BamInstance from '../components/IGV/BamInstance';
 import {
@@ -55,7 +55,7 @@ function BamBrowser() {
   function chrSelectBuilder() {
     const refNameList = [];
 
-    ListOfSimpleReferenceNames.forEach((refName) => {
+    ListOfReferenceNames.forEach((refName) => {
       refNameList.push(
         <option
           key={refName}
