@@ -13,6 +13,7 @@ import {
 
 import { notify, NotificationAlert } from '../utils/alert';
 import { LoadingIndicator, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
+import { SearchIndicator } from '../components/LoadingIndicator/SearchIndicator';
 
 import '../assets/css/VariantsSearch.css';
 
@@ -205,7 +206,7 @@ function ReadsSearch() {
           <Button>Search</Button>
         </Form>
 
-        {(displayReadsTable ? <ReadsTable rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />))}
+        {(displayReadsTable ? <ReadsTable rowData={rowData} datasetId={datasetId} /> : (<SearchIndicator area="table" />))}
       </div>
     </>
   );
