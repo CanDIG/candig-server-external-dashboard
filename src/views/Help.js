@@ -31,6 +31,11 @@ function Help() {
               <p className="card-text">
                 This page allows you to generate different types of charts on aggregated data on certain fields.
               </p>
+              <h6 className="card-subtitle mb-2 text-muted">File Directory</h6>
+              <p className="card-text">
+                This page allows you to view a list of genomic datasets, including variantSets (VCFs), readGroupSets (BAM),
+                featureSets, referenceSets etc.
+              </p>
               <h6 className="card-subtitle mb-2 text-muted">Variants Search</h6>
               <p className="card-text">
                 This page allows you to search for variants across all of the VCF files.
