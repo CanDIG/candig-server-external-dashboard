@@ -268,6 +268,25 @@ function getReferenceSet(referenceSetId) {
   });
 }
 
+/*
+Fetch data of genomic datasets, including readgroupsets, variantsets, featuresets and referencesets
+ * @param {string}... datasetId
+*/
+function searchGenomicSets(datasetId, path) {
+  return fetch(`${BASE_URL}/${path}/search`, {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      datasetId,
+    }),
+  }).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    return {};
+  });
+}
+
 export {
   fetchPatients,
   fetchDatasets,
@@ -281,4 +300,5 @@ export {
   searchReads,
   getReferenceSet,
   searchVariantByVariantSetIds,
+  searchGenomicSets,
 };

@@ -20,7 +20,7 @@ export const SearchIndicator = ({ area }) => {
         alignItems: 'center',
       }}
     >
-      <Loader type="ThreeDots" color="#2BAD60" height="100" width="100" />
+      <Loader type="Oval" color="#2BAD60" height="60" width="60" />
     </div>
     )
   );
