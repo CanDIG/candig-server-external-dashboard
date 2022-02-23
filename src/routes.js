@@ -23,12 +23,13 @@ import Overview from './views/Overview';
 import APIInfo from './views/APIInfo';
 import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
-import TableList from './views/MetadataTableApp';
+import ClinicalData from './views/ClinicalData';
 import VariantsSearch from './views/VariantsSearch';
 import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
 import BamBrowser from './views/BamBrowser';
 import VcfBrowser from './views/VcfBrowser';
+import FileDirectory from './views/FileDirectory';
 
 const routes = [
   {
@@ -46,10 +47,24 @@ const routes = [
     layout: '/v2/dashboard',
   },
   {
-    path: '/api-info',
-    name: 'API info',
-    icon: 'nc-icon nc-sound-wave',
-    component: APIInfo,
+    path: '/clinical-metadata',
+    name: 'Clinical Metadata',
+    icon: 'nc-icon nc-single-copy-04',
+    component: ClinicalData,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/custom-visualization',
+    name: 'Custom Visualization',
+    icon: 'nc-icon nc-chart-pie-36',
+    component: CustomVisualization,
+    layout: '/v2/dashboard',
+  },
+  {
+    path: '/file-directory',
+    name: 'File Directory',
+    icon: 'nc-icon nc-zoom-split',
+    component: FileDirectory,
     layout: '/v2/dashboard',
   },
   {
@@ -88,17 +103,10 @@ const routes = [
     layout: '/v2/dashboard',
   },
   {
-    path: '/custom-visualization',
-    name: 'Custom Visualization',
-    icon: 'nc-icon nc-chart-pie-36',
-    component: CustomVisualization,
-    layout: '/v2/dashboard',
-  },
-  {
-    path: '/clinical-metadata',
-    name: 'Clinical Metadata',
-    icon: 'nc-icon nc-single-copy-04',
-    component: TableList,
+    path: '/api-info',
+    name: 'API info',
+    icon: 'nc-icon nc-sound-wave',
+    component: APIInfo,
     layout: '/v2/dashboard',
   },
   {

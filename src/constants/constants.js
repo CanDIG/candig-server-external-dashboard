@@ -6,6 +6,8 @@
 export const BASE_URL = process.env.REACT_APP_CANDIG_SERVER_DASHBOARD_BASE_URL;
 
 export const CLIN_METADATA = [
+  'patients',
+  'samples',
   'celltransplants',
   'chemotherapies',
   'complications',
@@ -15,15 +17,15 @@ export const CLIN_METADATA = [
   'immunotherapies',
   'labtests',
   'outcomes',
-  'patients',
   'radiotherapies',
-  'samples',
   'slides',
   'studies',
   'surgeries',
   'treatments',
   'tumourboards',
 ];
+
+export const genomicsFileTypes = ['variantSets', 'readGroupSets', 'referenceSets', 'featureSets'];
 
 // Highcharts Map requires a specific set of codes for provinces
 // and territories, as represented by hcProvCodes below.
