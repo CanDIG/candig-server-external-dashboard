@@ -13,6 +13,7 @@ import {
 
 import { notify, NotificationAlert } from '../utils/alert';
 import { LoadingIndicator, usePromiseTracker, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
+import { SearchIndicator } from '../components/LoadingIndicator/SearchIndicator';
 
 import '../assets/css/VariantsSearch.css';
 
@@ -187,7 +188,7 @@ function VariantsSearch() {
           <Button>Search</Button>
         </Form>
 
-        {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />) }
+        {displayVariantsTable ? <VariantsTable rowData={rowData} datasetId={datasetId} /> : (<SearchIndicator area="table" />) }
       </div>
     </>
   );

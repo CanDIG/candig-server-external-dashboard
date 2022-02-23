@@ -9,7 +9,7 @@ import {
 import BeaconTable from '../components/Tables/BeaconTable';
 
 import { notify, NotificationAlert } from '../utils/alert';
-import { LoadingIndicator, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
+import { SearchIndicator, trackPromise } from '../components/LoadingIndicator/SearchIndicator';
 
 // Consts
 import { BeaconFreqTableColumnDefs, BeaconRangeTableColumnDefs, ListOfReferenceNames } from '../constants/constants';
@@ -304,7 +304,7 @@ function BeaconSearch() {
           </div>
         </Row>
 
-        {displayBeaconTable ? <BeaconTable columnDefs={activeColumnDefs} rowData={rowData} datasetId={datasetId} /> : (<LoadingIndicator area="table" />) }
+        {displayBeaconTable ? <BeaconTable columnDefs={activeColumnDefs} rowData={rowData} datasetId={datasetId} /> : (<SearchIndicator area="table" />) }
 
       </div>
     </>
