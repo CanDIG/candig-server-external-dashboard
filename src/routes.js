@@ -63,7 +63,7 @@ const routes = [
   {
     path: '/file-directory',
     name: 'File Directory',
-    icon: 'nc-icon nc-zoom-split',
+    icon: 'nc-icon nc-book-bookmark',
     component: FileDirectory,
     layout: '/v2/dashboard',
   },
@@ -77,7 +77,7 @@ const routes = [
   {
     path: '/vcf-browser',
     name: 'VCF Browser',
-    icon: 'nc-icon nc-zoom-split',
+    icon: 'nc-icon nc-compass-05',
     component: VcfBrowser,
     layout: '/v2/dashboard',
   },
@@ -91,7 +91,7 @@ const routes = [
   {
     path: '/bam-browser',
     name: 'BAM Browser',
-    icon: 'nc-icon nc-zoom-split',
+    icon: 'nc-icon nc-compass-05',
     component: BamBrowser,
     layout: '/v2/dashboard',
   },
