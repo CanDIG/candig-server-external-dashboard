@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // reactstrap components
 import {
   Card, CardBody, CardTitle, Row, Col,
@@ -81,10 +81,12 @@ function Dashboard(){
       getSampleCounters(datasetId, 'samples', ['datasetId']);
     }
   }
- 
-  if (events.setData.update.datasetId) {
+
+  useEffect(() => {
+    if (datasetId) {
       fetchData(events.setData.update.datasetId);
-  }
+    }
+  }, [datasetId]);
   
     return (
       <>
