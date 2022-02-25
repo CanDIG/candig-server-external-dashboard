@@ -103,7 +103,7 @@ function ClinicalData() {
         setDisplayClinicalTable(false);
         notify(
           notifyEl,
-          'Sorry, but no reads were found in your search range.',
+          'Sorry, no data was found for your request.',
           'warning',
         );
       }),
