@@ -132,7 +132,7 @@ export const BeaconRangeTableColumnDefs = [
 ];
 
 export const referenceToIgvTrack = {
-  hg19: ['hg19', 'hg19a', 'hs37d5', 'grch37'],
+  hg19: ['hg19', 'hg19a', 'hs37d5', 'grch37', 'grch37-lite'],
   hg38: ['hg38', 'grch38'],
 };
 
