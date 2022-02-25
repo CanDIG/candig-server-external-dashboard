@@ -76,7 +76,6 @@ function VariantsSearch() {
           dropdownOptions.push({ label: variant.name, value: variant.id });
         });
         setOptions(dropdownOptions);
-        setSelected(dropdownOptions);
         settingReferenceSetName(data.results.variantSets[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');

@@ -83,7 +83,6 @@ function BamBrowser() {
         data.results.readGroupSets.forEach((readgroupset) => {
           options.push({ label: readgroupset.name, value: readgroupset.id });
         });
-        setSelected(options);
         settingReferenceSetName(data.results.readGroupSets[0].readGroups[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');

@@ -59,7 +59,6 @@ function VcfBrowser() {
         data.results.variantSets.forEach((variant) => {
           options.push({ label: variant.name, value: variant.id });
         });
-        setSelected(options);
         settingReferenceSetName(data.results.variantSets[0].referenceSetId);
       }).catch(() => {
         setVariantSets('Not Available');
