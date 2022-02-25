@@ -44,7 +44,12 @@ export function createNotificationObject(message, type = 'info') {
     - dark
  */
 export function notify(refObject, message, type = 'info') {
-  refObject.current.notificationAlert(createNotificationObject(message, type));
+  try {
+    refObject.current.notificationAlert(createNotificationObject(message, type));
+  } catch (err) {
+    // Occasionally, the refObject.current.notificationAlert() throws an error
+    // This would catch that error and do nothing
+  }
 }
 
 export { NotificationAlert };
