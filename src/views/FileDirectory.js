@@ -87,10 +87,10 @@ function FileDirectory() {
   }
 
   useEffect(() => {
-    // only called on the initial page load.
-    const reqType = genomicsFileTypes[0];
-    const reqPath = genomicsFileTypes[0].toLowerCase();
-    setCurrentTable(reqType);
+    // Called on the initial page load, or when dataset gets switched.
+    const reqType = currentTable;
+    const reqPath = currentTable.toLowerCase();
+    setDisplayFilesTable(false);
 
     trackPromise(searchGenomicSets(datasetId, reqPath)
       .then((data) => {
@@ -100,10 +100,19 @@ function FileDirectory() {
         setRowData(dataStringifier(data.results[reqType]));
       }).catch(() => {
         setRowData([]);
+        setNumberOfRecords(0);
         setDisplayFilesTable(false);
+
+        if (datasetId !== '') {
+          notify(
+            notifyEl,
+            'Sorry, no data was found for your request.',
+            'warning',
+          );
+        }
       }),
     'table');
-  }, [datasetId]);
+  }, [datasetId, currentTable]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
