@@ -10,6 +10,7 @@ import VariantsTable from '../components/Tables/VariantsTable';
 import {
   searchVariant, searchVariantSets, searchVariantByVariantSetIds, getReferenceSet,
 } from '../api/api';
+import { ListOfReferenceNames } from '../constants/constants';
 
 import { notify, NotificationAlert } from '../utils/alert';
 import { LoadingIndicator, usePromiseTracker, trackPromise } from '../components/LoadingIndicator/LoadingIndicator';
@@ -40,6 +41,27 @@ function VariantsSearch() {
     }).catch(() => {
       setReferenceSetName('Not Available');
     });
+  }
+
+  /*
+  Build the dropdown for chromosome
+  * @param {None}
+  * Return a list of options with chromosome
+  */
+  function chrSelectBuilder() {
+    const refNameList = [];
+
+    ListOfReferenceNames.forEach((refName) => {
+      refNameList.push(
+        <option
+          key={refName}
+          value={refName}
+        >
+          {refName}
+        </option>,
+      );
+    });
+    return refNameList;
   }
 
   useEffect(() => {
@@ -174,8 +196,8 @@ function VariantsSearch() {
             </FormGroup>
             )}
           <FormGroup>
-            <Label for="referenceName">Chromosome</Label>
-            <Input required type="text" id="chromosome" />
+            <Label for="chromosome">Chromosome</Label>
+            <Input required type="select" id="chromosome">{ chrSelectBuilder() }</Input>
           </FormGroup>
           <FormGroup>
             <Label for="start">Start</Label>
