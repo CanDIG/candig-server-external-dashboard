@@ -67,9 +67,10 @@ function ClinicalData() {
   }
 
   useEffect(() => {
-    // only called on the initial page load.
-    const reqType = CLIN_METADATA[0];
-    const reqPath = CLIN_METADATA[0].toLowerCase();
+    // Called on the initial page load, or when dataset gets switched.
+    const reqType = currentTable;
+    const reqPath = currentTable.toLowerCase();
+    setDisplayClinicalTable(false);
 
     trackPromise(searchGenomicSets(datasetId, reqPath)
       .then((data) => {
@@ -79,10 +80,19 @@ function ClinicalData() {
         setRowData(data.results[reqType]);
       }).catch(() => {
         setRowData([]);
+        setNumberOfRecords(0);
         setDisplayClinicalTable(false);
+
+        if (datasetId !== '') {
+          notify(
+            notifyEl,
+            'Sorry, no data was found for your request.',
+            'warning',
+          );
+        }
       }),
     'table');
-  }, [datasetId]);
+  }, [datasetId, currentTable]);
 
   const formHandler = (e) => {
     e.preventDefault(); // Prevent form submission
