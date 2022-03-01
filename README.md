@@ -1,4 +1,8 @@
-# candig-server-beta-dashboard
+# candig-server-external-dashboard
+
+This is a React.js-based application that supports visualization of clinical, genomics and other types of data served by the [candig-server](https://github.com/candig/candig-server)
+
+While the candig-server has a built-in dashboard, this app has more functionalities and is more responsive.
 
 ### Table of Contents
 - [Installation](#installation)
@@ -11,15 +15,15 @@
 
 ## Installation
 
-Before installing the Dashboard, make sure you have [Node.js](https://nodejs.org/en/) version v10.13.0 or above installed on your environment.
+Before installing the Dashboard, make sure you have [Node.js](https://nodejs.org/en/) version v10.13.0 or above installed in your environment.
 
-Clone this repository and start the installation using the following commands:
+To start a server for development purposes, clone the repo first.
+
 ```bash
-git clone git@github.com:CanDIG/candig-server-beta-dashboard.git
-cd candig-server-beta-dashboard
+git clone git@github.com:CanDIG/candig-server-external-dashboard.git
+cd candig-server-external-dashboard
 npm install
 ```
-That command will install all the dependencies used on the application.
 
 You should specify the path of your candig-server API server in `.env.development` file.
 
@@ -27,22 +31,29 @@ Once the installation is completed, you may start the dashboard by running:
 ```bash
 npm start
 ```
-## Deployment
+## Production Deployment
 
 Specify the path of your candig-server API server in `.env.production` file.
 
 ```bash
 npm run build
+```
+
+Serve the `/build` folder with any production-grade static file server, such as nginx.
+
+For testing purposes, you may use `http-server` to serve the `/build` folder.
+
+```bash
 npx http-server --proxy http://0.0.0.0:8080? ./build/
 ```
 
 ## Usage
 
-### Dataset selection
+### Help page
 
-First thing first, select the desirable dataset on the top-right corner. This will load all the information for the charts. Here is a sample:
+The help page contains overview of all pages, as well as FAQ and glossary. Please refer to the help page first, if you have any questions in using the application.
 
-![](https://raw.githubusercontent.com/CanDIG/candigv2_dashboard/develop/docs/datasets_dropdown.png)
+If you have questions that are unanswered, please feel free to let us know!
 
 ### Available pages
 
