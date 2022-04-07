@@ -25,7 +25,6 @@ import CustomVisualization from './views/CustomVisualization';
 import PatientsOverview from './views/PatientsOverview';
 import ClinicalData from './views/ClinicalData';
 import VariantsSearch from './views/VariantsSearch';
-import BeaconSearch from './views/BeaconSearch';
 import Help from './views/Help';
 import BamBrowser from './views/BamBrowser';
 import VcfBrowser from './views/VcfBrowser';
