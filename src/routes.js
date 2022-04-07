@@ -96,13 +96,6 @@ const routes = [
     layout: '/v2/dashboard',
   },
   {
-    path: '/beacon-search',
-    name: 'Beacon Search',
-    icon: 'nc-icon nc-zoom-split',
-    component: BeaconSearch,
-    layout: '/v2/dashboard',
-  },
-  {
     path: '/api-info',
     name: 'API info',
     icon: 'nc-icon nc-sound-wave',
