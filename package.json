@@ -14,7 +14,7 @@
     "http-server": "^0.12.3",
     "@candig/igv": "2.10.5-c.1",
     "match-sorter": "^4.2.0",
-    "node-sass": "4.14.1",
+    "node-sass": "7.0.0",
     "perfect-scrollbar": "1.5.0",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
